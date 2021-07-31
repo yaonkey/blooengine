@@ -1,0 +1,11 @@
+AddDefaultCharset utf-8
+RewriteEngine on
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php
+# HTID:14148816: DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES BELOW
+php_flag display_errors on
+# DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:14148816:
+
+ErrorDocument 404 /models/404.php
