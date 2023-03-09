@@ -1,5 +1,9 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Models\User;
+
 /**
  * Контроллер UserController
  */
@@ -8,7 +12,7 @@ class UserController
     /**
      * Action для страницы "Регистрация"
      */
-    public function actionRegister()
+    public function actionRegister(): bool
     {
         // Переменные для формы
         $name = false;
@@ -17,7 +21,7 @@ class UserController
         $email = false;
 
         // Обработка формы
-        
+
         if (isset($_POST['submit'])) {
             // Если форма отправлена 
             // Получаем данные из формы
@@ -30,25 +34,25 @@ class UserController
 
             // Валидация полей
             if (!User::checkName($name)) {
-                $errors[] = 'Имя не должно быть короче 2-х символов';
+                $errors = ['Имя не должно быть короче 2-х символов'];
             }
             if (!User::checkEmail($email)) {
-                $errors[] = 'Неправильный email';
+                $errors = ['Неправильный email'];
             }
             if (!User::checkPassword($password)) {
-                $errors[] = 'Пароль не должен быть короче 6-ти символов';
+                $errors = ['Пароль не должен быть короче 6-ти символов'];
             }
             if (User::checkEmailExists($email)) {
-                $errors[] = 'Такой email уже используется';
+                $errors = ['Такой email уже используется'];
             }
-            
-            if ($errors == null) {
+
+            if (!$errors) {
                 //$password = password_hash($password, PASSWORD_DEFAULT);
                 // Если ошибок нет
                 // Регистрируем пользователя
                 $result = User::register($name, $email, $password);
-                if (strlen($result) == 0){
-                        header("Location: /");
+                if (strlen($result) == 0) {
+                    header("Location: /");
                 }
             }
         }
@@ -57,16 +61,16 @@ class UserController
         require_once(ROOT . '/views/user/register.php');
         return true;
     }
-    
+
     /**
      * Action для страницы "Вход на сайт"
      */
-    public function actionLogin()
+    public function actionLogin(): bool
     {
         // Переменные для формы
         $email = false;
         $password = false;
-        
+
         // Обработка формы
         if (isset($_POST['submit'])) {
             // Если форма отправлена 
@@ -79,18 +83,18 @@ class UserController
 
             // Валидация полей
             if (!User::checkEmail($email)) {
-                $errors[] = 'Неправильный email';
+                $errors = ['Неправильный email'];
             }
             if (!User::checkPassword($password)) {
-                $errors[] = 'Пароль не должен быть короче 6-ти символов';
+                $errors = ['Пароль не должен быть короче 6-ти символов'];
             }
 
             // Проверяем существует ли пользователь
             $userId = User::checkUserData($email, $password);
 
-            if ($userId == false) {
+            if (!$userId) {
                 // Если данные неправильные - показываем ошибку
-                $errors[] = 'Неправильные данные для входа на сайт';
+                $errors = ['Неправильные данные для входа на сайт'];
             } else {
                 // Если данные правильные, запоминаем пользователя (сессия)
                 User::auth($userId);
@@ -99,7 +103,7 @@ class UserController
                 //header("Location: /cabinet");
                 header("Location: /");
             }
-            
+
         }
 
         // Подключаем вид
@@ -110,14 +114,14 @@ class UserController
     /**
      * Удаляем данные о пользователе из сессии
      */
-    public function actionLogout()
+    public function actionLogout(): void
     {
         // Стартуем сессию
         //session_start();
-        
+
         // Удаляем информацию о пользователе из сессии
         unset($_SESSION["user"]);
-        
+
         // Перенаправляем пользователя на главную страницу
         header("Location: /");
     }

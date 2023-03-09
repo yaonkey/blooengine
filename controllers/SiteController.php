@@ -1,5 +1,10 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Models\Product;
+use Blooengine\Models\User;
+
 /**
  * Контроллер CartController
  */
@@ -9,7 +14,7 @@ class SiteController
     /**
      * Action для главной страницы
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Список категорий для левого меню
         //$categories = Category::getCategoriesList();
@@ -28,7 +33,7 @@ class SiteController
     /**
      * Action для страницы "Контакты"
      */
-    public function actionContact()
+    public function actionContact(): bool
     {
 
         // Переменные для формы
@@ -48,10 +53,10 @@ class SiteController
 
             // Валидация полей
             if (!User::checkEmail($userEmail)) {
-                $errors[] = 'Неправильный email';
+                $errors = ['Неправильный email'];
             }
 
-            if ($errors == false) {
+            if (!$errors) {
                 // Если ошибок нет
                 // Отправляем письмо администратору 
                 $adminEmail = 'thesuperuserstyle@gmail.com';
@@ -66,11 +71,11 @@ class SiteController
         require_once(ROOT . '/views/site/contact.php');
         return true;
     }
-    
+
     /**
      * Action для страницы "О магазине"
      */
-    public function actionAbout()
+    public function actionAbout(): bool
     {
         // Подключаем вид
         require_once(ROOT . '/views/site/about.php');

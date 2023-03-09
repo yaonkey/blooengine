@@ -1,5 +1,11 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\Pagination;
+use Blooengine\Models\Category;
+use Blooengine\Models\Product;
+
 /**
  * Контроллер CatalogController
  * Каталог товаров
@@ -10,27 +16,19 @@ class CatalogController
     /**
      * Action для страницы "Каталог товаров"
      */
-    public function actionIndex($page = 1)
+    public function actionIndex($page = 1): bool
     {
         $searchError = false;
         $categories = Category::getCategoriesList();
-        if (!empty($_POST['query'])) { 
-            $latestProducts = Product::search($_POST['query']); 
-        }else{
+        if (!empty($_POST['query'])) {
+            $latestProducts = Product::search($_POST['query']);
+        } else {
             $latestProducts = Product::getLatestProducts($page, Product::SHOW_BY_DEFAULT);
-        }   
-        
-        
-        
-         $total = Category::getTotalPages();
-        $pagination = new Pagination($total, $page, Product::SHOW_BY_DEFAULT, 'page-');
-        
-        // Список категорий для левого меню
-       
+        }
 
-        // Список последних товаров
-        
-        
+
+        $total = Category::getTotalPages();
+        $pagination = new Pagination($total, $page, Product::SHOW_BY_DEFAULT, 'page-');
 
         // Подключаем вид
         require_once(ROOT . '/views/catalog/index.php');
@@ -40,7 +38,7 @@ class CatalogController
     /**
      * Action для страницы "Категория товаров"
      */
-    public function actionCategory($categoryId, $page = 1)
+    public function actionCategory($categoryId, $page = 1): bool
     {
         // Список категорий для левого меню
         $categories = Category::getCategoriesList();

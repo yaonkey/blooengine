@@ -1,5 +1,7 @@
 <?php
 
+namespace Blooengine\Components;
+
 /**
  * Класс Db
  * Компонент для работы с базой данных

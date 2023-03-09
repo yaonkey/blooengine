@@ -1,16 +1,22 @@
 <?php
 
+namespace Blooengine\Models;
+
+use Blooengine\Components\Db;
+use PDO;
+
 /**
  * Класс Category - модель для работы с категориями товаров
  */
 class Category
 {
-    
-    public static function getTotalPages(){
+
+    public static function getTotalPages()
+    {
         $db = Db::getConnection();
         $res = $db->query("SELECT COUNT(*) FROM `product`");
         $row = $res->fetch();
-        $total = $row[0]; // всего записей  
+        $total = $row[0]; // всего записей
         return $total;
     }
 
@@ -18,7 +24,7 @@ class Category
      * Возвращает массив категорий для списка на сайте
      * @return array <p>Массив с категориями</p>
      */
-    public static function getCategoriesList()
+    public static function getCategoriesList(): array
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -40,8 +46,8 @@ class Category
         return $categoryList;
     }
 
-    
-        public static function getCategoriesListAdmin()
+
+    public static function getCategoriesListAdmin(): array
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -63,20 +69,19 @@ class Category
         return $categoryList;
     }
 
-    
-    
+
     /**
      * Возвращает массив категорий для списка в админпанели <br/>
      * (при этом в результат попадают и включенные и выключенные категории)
      * @return array <p>Массив категорий</p>
      */
-    public static function getCategoriesListAdminByName($query)
+    public static function getCategoriesListAdminByName($query): array
     {
         // Соединение с БД
         $db = Db::getConnection();
-        $query = trim($query); 
+        $query = trim($query);
 //    $query = mysql_real_escape_string($query);
-    $query = htmlspecialchars($query);
+        $query = htmlspecialchars($query);
         // Запрос к БД
         $result = $db->query("SELECT `id`, `name`, `sort_order`, `status`
                   FROM `category` WHERE `name` LIKE '%$query%'");
@@ -99,7 +104,7 @@ class Category
      * @param integer $id
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function deleteCategoryById($id)
+    public static function deleteCategoryById(int $id): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -121,7 +126,7 @@ class Category
      * @param integer $status <p>Статус <i>(включено "1", выключено "0")</i></p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function updateCategoryById($id, $name, $sortOrder, $status, $type)
+    public static function updateCategoryById(int $id, string $name, int $sortOrder, int $status, $type): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -150,7 +155,7 @@ class Category
      * @param integer $id <p>id категории</p>
      * @return array <p>Массив с информацией о категории</p>
      */
-    public static function getCategoryById($id)
+    public static function getCategoryById(int $id): array
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -178,7 +183,7 @@ class Category
      * @param integer $status <p>Статус</p>
      * @return string <p>Текстовое пояснение</p>
      */
-    public static function getStatusText($status)
+    public static function getStatusText(int $status): string
     {
         switch ($status) {
             case '1':
@@ -189,18 +194,19 @@ class Category
                 break;
         }
     }
-    
-    
-    public static function getTypeGood($type){
-        if($type == 0){
+
+
+    public static function getTypeGood($type)
+    {
+        if ($type == 0) {
             return 'Аксессуары';
-        }elseif($type == 1){
+        } elseif ($type == 1) {
             return 'Кальяны';
-        }elseif($type == 2){
+        } elseif ($type == 2) {
             return 'Уголь';
-        }elseif($type == 3){
+        } elseif ($type == 3) {
             return 'Чаши';
-        }elseif($type == 4){
+        } elseif ($type == 4) {
             return 'Кальянные смеси';
         }
     }
@@ -212,14 +218,14 @@ class Category
      * @param integer $status <p>Статус <i>(включено "1", выключено "0")</i></p>
      * @return boolean <p>Результат добавления записи в таблицу</p>
      */
-    public static function createCategory($name, $sortOrder, $status, $type)
+    public static function createCategory(string $name, int $sortOrder, int $status, $type): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
         $sql = 'INSERT INTO category (name, sort_order, status, type) '
-                . 'VALUES (:name, :sort_order, :status, :type)';
+            . 'VALUES (:name, :sort_order, :status, :type)';
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);

@@ -1,5 +1,11 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\AdminBase;
+use Blooengine\Models\Category;
+use Blooengine\Models\Product;
+
 /**
  * Контроллер AdminProductController
  * Управление товарами в админпанели
@@ -10,16 +16,16 @@ class AdminProductController extends AdminBase
     /**
      * Action для страницы "Управление товарами"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Проверка доступа
         self::checkAdmin();
         $searchError = false;
-        if (!empty($_POST['query'])) { 
-            $productsList = Product::search($_POST['query']); 
-        }else{
+        if (!empty($_POST['query'])) {
+            $productsList = Product::search($_POST['query']);
+        } else {
             $productsList = Product::getProductsList();
-        }  
+        }
         // Получаем список товаров
 //        $productsList = Product::getProductsList();
 
@@ -31,7 +37,7 @@ class AdminProductController extends AdminBase
     /**
      * Action для страницы "Добавить товар"
      */
-    public function actionCreate()
+    public function actionCreate(): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -42,7 +48,7 @@ class AdminProductController extends AdminBase
         // Обработка формы
         if (isset($_POST['submit'])) {
             // Если форма отправлена
-            // Получаем данные из формы
+            // получаем данные из формы
             $options['name'] = $_POST['name'];
             $options['code'] = $_POST['code'];
             $options['price'] = $_POST['price'];
@@ -58,11 +64,11 @@ class AdminProductController extends AdminBase
             $errors = false;
 
             // При необходимости можно валидировать значения нужным образом
-            if (!isset($options['name']) || empty($options['name'])) {
-                $errors[] = 'Заполните поля';
+            if (empty($options['name'])) {
+                $errors = ['Заполните поля'];
             }
 
-            if ($errors == false) {
+            if (!$errors) {
                 // Если ошибок нет
                 // Добавляем новый товар
                 $id = Product::createProduct($options);
@@ -89,7 +95,7 @@ class AdminProductController extends AdminBase
     /**
      * Action для страницы "Редактировать товар"
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -124,7 +130,7 @@ class AdminProductController extends AdminBase
                 if (is_uploaded_file($_FILES["image"]["tmp_name"])) {
 
                     // Если загружалось, переместим его в нужную папке, дадим новое имя
-                   move_uploaded_file($_FILES["image"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/upload/images/products/{$id}.jpg");
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $_SERVER['DOCUMENT_ROOT'] . "/upload/images/products/{$id}.jpg");
                 }
             }
 
@@ -140,7 +146,7 @@ class AdminProductController extends AdminBase
     /**
      * Action для страницы "Удалить товар"
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): bool
     {
         // Проверка доступа
         self::checkAdmin();

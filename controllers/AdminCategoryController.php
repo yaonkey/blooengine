@@ -1,18 +1,24 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\AdminBase;
+use Blooengine\Models\Category;
+
 /**
  * Контроллер AdminCategoryController
  * Управление категориями товаров в админпанели
  */
 class AdminCategoryController extends AdminBase
 {
-    
+
     /**
      * Action для страницы "Управление заголовками"
      */
-    public function actionCreateHeader(){
+    public function actionCreateHeader(): bool
+    {
         self::checkAdmin();
-     
+
         require_once(ROOT . '/views/admin_category/createHeader.php');
         return true;
     }
@@ -20,18 +26,18 @@ class AdminCategoryController extends AdminBase
     /**
      * Action для страницы "Управление категориями"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Проверка доступа
         self::checkAdmin();
-        
+
         $searchError = false;
-        if (!empty($_POST['query1'])) { 
-            $categoriesList = Category::getCategoriesListAdminByName($_POST['query1']); 
-        }else{
+        if (!empty($_POST['query1'])) {
+            $categoriesList = Category::getCategoriesListAdminByName($_POST['query1']);
+        } else {
             $categoriesList = Category::getCategoriesListAdmin();
-        }  
-        
+        }
+
         // Получаем список категорий
 //        $categoriesList = Category::getCategoriesListAdmin();
 
@@ -43,7 +49,7 @@ class AdminCategoryController extends AdminBase
     /**
      * Action для страницы "Добавить категорию"
      */
-    public function actionCreate()
+    public function actionCreate(): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -61,12 +67,12 @@ class AdminCategoryController extends AdminBase
             $errors = false;
 
             // При необходимости можно валидировать значения нужным образом
-            if (!isset($name) || empty($name)) {
-                $errors[] = 'Заполните поля';
+            if (empty($name)) {
+                $errors = ['Заполните поля'];
             }
 
 
-            if ($errors == false) {
+            if (!$errors) {
                 // Если ошибок нет
                 // Добавляем новую категорию
                 Category::createCategory($name, $sortOrder, $status, $type);
@@ -83,7 +89,7 @@ class AdminCategoryController extends AdminBase
     /**
      * Action для страницы "Редактировать категорию"
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -115,7 +121,7 @@ class AdminCategoryController extends AdminBase
     /**
      * Action для страницы "Удалить категорию"
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): bool
     {
         // Проверка доступа
         self::checkAdmin();

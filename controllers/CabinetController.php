@@ -1,5 +1,9 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Models\User;
+
 /**
  * Контроллер CabinetController
  * Кабинет пользователя
@@ -10,14 +14,14 @@ class CabinetController
     /**
      * Action для страницы "Кабинет пользователя"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Получаем идентификатор пользователя из сессии
         $userId = User::checkLogged();
 
         // Получаем информацию о пользователе из БД
         $user = User::getUserById($userId);
-        
+
         // Получаем администратора
         $isAdmin = User::checkAdmin($userId);
 
@@ -29,7 +33,7 @@ class CabinetController
     /**
      * Action для страницы "Редактирование данных пользователя"
      */
-    public function actionEdit()
+    public function actionEdit(): bool
     {
         // Получаем идентификатор пользователя из сессии
         $userId = User::checkLogged();
@@ -56,13 +60,13 @@ class CabinetController
 
             // Валидируем значения
             if (!User::checkName($name)) {
-                $errors[] = 'Имя не должно быть короче 2-х символов';
+                $errors = ['Имя не должно быть короче 2-х символов'];
             }
             if (!User::checkPassword($password)) {
                 $errors[] = 'Пароль не должен быть короче 6-ти символов';
             }
 
-            if ($errors == false) {
+            if (!$errors) {
                 // Если ошибок нет, сохраняет изменения профиля
                 $result = User::edit($userId, $name, $password);
             }

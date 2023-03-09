@@ -1,5 +1,11 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\AdminBase;
+use Blooengine\Models\Order;
+use Blooengine\Models\Product;
+
 /**
  * Контроллер AdminOrderController
  * Управление заказами в админпанели
@@ -10,17 +16,17 @@ class AdminOrderController extends AdminBase
     /**
      * Action для страницы "Управление заказами"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Проверка доступа
         self::checkAdmin();
-        
+
         $searchError = false;
-        if (!empty($_POST['query2'])) { 
-            $ordersList = Order::getOrdersListByName($_POST['query2']); 
-        }else{
+        if (!empty($_POST['query2'])) {
+            $ordersList = Order::getOrdersListByName($_POST['query2']);
+        } else {
             $ordersList = Order::getOrdersList();
-        }  
+        }
         // Получаем список заказов
 //        $ordersList = Order::getOrdersList();
 
@@ -32,7 +38,7 @@ class AdminOrderController extends AdminBase
     /**
      * Action для страницы "Редактирование заказа"
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -65,7 +71,7 @@ class AdminOrderController extends AdminBase
     /**
      * Action для страницы "Просмотр заказа"
      */
-    public function actionView($id)
+    public function actionView($id): bool
     {
         // Проверка доступа
         self::checkAdmin();
@@ -80,7 +86,7 @@ class AdminOrderController extends AdminBase
         $productsIds = array_keys($productsQuantity);
 
         // Получаем список товаров в заказе
-        $products = Product::getProdustsByIds($productsIds);
+        $products = Product::getProductsByIds($productsIds);
 
         // Подключаем вид
         require_once(ROOT . '/views/admin_order/view.php');
@@ -90,7 +96,7 @@ class AdminOrderController extends AdminBase
     /**
      * Action для страницы "Удалить заказ"
      */
-    public function actionDelete($id)
+    public function actionDelete($id): bool
     {
         // Проверка доступа
         self::checkAdmin();

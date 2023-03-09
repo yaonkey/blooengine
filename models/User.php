@@ -1,5 +1,10 @@
 <?php
 
+namespace Blooengine\Models;
+
+use Blooengine\Components\Db;
+use PDO;
+
 /**
  * Класс User - модель для работы с пользователями
  */
@@ -8,9 +13,11 @@ class User
 
     /**
      * Проверка на администратора
+     * @param $uid
      * @return boolean
      */
-    public static function checkAdmin($uid){
+    public static function checkAdmin($uid): bool
+    {
         $db = Db::getConnection();
 
         // Текст запроса к БД
@@ -29,15 +36,15 @@ class User
         }
         return false;
     }
-    
+
     /**
-     * Регистрация пользователя 
+     * Регистрация пользователя
      * @param string $name <p>Имя</p>
      * @param string $email <p>E-mail</p>
      * @param string $password <p>Пароль</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function register($name, $email, $password)
+    public static function register(string $name, string $email, string $password): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -60,7 +67,7 @@ class User
      * @param string $password <p>Пароль</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function edit($id, $name, $password)
+    public static function edit(int $id, string $name, string $password): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -84,7 +91,7 @@ class User
      * @param string $password <p>Пароль</p>
      * @return mixed : integer user id or false
      */
-    public static function checkUserData($email, $password)
+    public static function checkUserData(string $email, string $password): mixed
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -93,10 +100,10 @@ class User
         $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
 
         // Получение результатов. Используется подготовленный запрос
-          $result = $db->prepare($sql);
+        $result = $db->prepare($sql);
 //        $result->bindParam(':email', $email, PDO::PARAM_INT);
 //        $result->bindParam(':password', $password, PDO::PARAM_INT);
-          $result->execute();
+        $result->execute();
 
         // Обращаемся к записи
         $user = $result->fetch();
@@ -113,7 +120,7 @@ class User
      * Запоминаем пользователя
      * @param integer $userId <p>id пользователя</p>
      */
-    public static function auth($userId)
+    public static function auth(int $userId): void
     {
         // Записываем идентификатор пользователя в сессию
         $_SESSION['user'] = $userId;
@@ -138,7 +145,7 @@ class User
      * Проверяет является ли пользователь гостем
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function isGuest()
+    public static function isGuest(): bool
     {
         if (isset($_SESSION['user'])) {
             return false;
@@ -151,7 +158,7 @@ class User
      * @param string $name <p>Имя</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkName($name)
+    public static function checkName(string $name): bool
     {
         if (strlen($name) >= 2) {
             return true;
@@ -164,7 +171,7 @@ class User
      * @param string $phone <p>Телефон</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkPhone($phone)
+    public static function checkPhone(string $phone): bool
     {
         if (strlen($phone) >= 10 && preg_match("/[+7,8][0-9]{10,10}+$/", $phone)) {
             return true;
@@ -177,7 +184,7 @@ class User
      * @param string $password <p>Пароль</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkPassword($password)
+    public static function checkPassword(string $password): bool
     {
         if (strlen($password) >= 6) {
             return true;
@@ -190,7 +197,7 @@ class User
      * @param string $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmail($email)
+    public static function checkEmail(string $email): bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return true;
@@ -203,7 +210,7 @@ class User
      * @param type $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmailExists($email)
+    public static function checkEmailExists(type $email): bool
     {
         // Соединение с БД        
         $db = Db::getConnection();
@@ -226,7 +233,7 @@ class User
      * @param integer $id <p>id пользователя</p>
      * @return array <p>Массив с информацией о пользователе</p>
      */
-    public static function getUserById($id)
+    public static function getUserById(int $id): array
     {
         // Соединение с БД
         $db = Db::getConnection();

@@ -1,5 +1,7 @@
 <?php
 
+namespace Blooengine\Components;
+
 /**
  * Класс Cart
  * Компонент для работы корзиной
@@ -12,7 +14,7 @@ class Cart
      * @param int $id <p>id товара</p>
      * @return integer <p>Количество товаров в корзине</p>
      */
-    public static function addProduct($id)
+    public static function addProduct(int $id): int
     {
         // Приводим $id к типу integer
         $id = intval($id);
@@ -29,7 +31,7 @@ class Cart
         // Проверяем есть ли уже такой товар в корзине 
         if (array_key_exists($id, $productsInCart)) {
             // Если такой товар есть в корзине, но был добавлен еще раз, увеличим количество на 1
-            $productsInCart[$id] ++;
+            $productsInCart[$id]++;
         } else {
             // Если нет, добавляем id нового товара в корзину с количеством 1
             $productsInCart[$id] = 1;
@@ -46,12 +48,12 @@ class Cart
      * Подсчет количество товаров в корзине (в сессии)
      * @return int <p>Количество товаров в корзине</p>
      */
-    public static function countItems()
+    public static function countItems(): int
     {
         // Проверка наличия товаров в корзине
         if (isset($_SESSION['products'])) {
             // Если массив с товарами есть
-            // Подсчитаем и вернем их количество
+            // Посчитаем и вернем их количество
             $count = 0;
             foreach ($_SESSION['products'] as $id => $quantity) {
                 $count = $count + $quantity;
@@ -68,7 +70,7 @@ class Cart
      * Если товаров нет, возвращает false;
      * @return mixed: boolean or array
      */
-    public static function getProducts()
+    public static function getProducts(): mixed
     {
         if (isset($_SESSION['products'])) {
             return $_SESSION['products'];
@@ -81,7 +83,7 @@ class Cart
      * @param array $products <p>Массив с информацией о товарах</p>
      * @return integer <p>Общая стоимость</p>
      */
-    public static function getTotalPrice($products)
+    public static function getTotalPrice(array $products): float|int
     {
         // Получаем массив с идентификаторами и количеством товаров в корзине
         $productsInCart = self::getProducts();
@@ -103,7 +105,7 @@ class Cart
     /**
      * Очищает корзину
      */
-    public static function clear()
+    public static function clear(): void
     {
         if (isset($_SESSION['products'])) {
             unset($_SESSION['products']);
@@ -114,7 +116,7 @@ class Cart
      * Удаляет товар с указанным id из корзины
      * @param integer $id <p>id товара</p>
      */
-    public static function deleteProduct($id)
+    public static function deleteProduct(int $id): void
     {
         // Получаем массив с идентификаторами и количеством товаров в корзине
         $productsInCart = self::getProducts();

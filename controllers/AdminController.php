@@ -1,5 +1,9 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\AdminBase;
+
 /**
  * Контроллер AdminController
  * Главная страница в админпанели
@@ -9,7 +13,7 @@ class AdminController extends AdminBase
     /**
      * Action для стартовой страницы "Панель администратора"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Проверка доступа
         self::checkAdmin();

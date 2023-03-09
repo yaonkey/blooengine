@@ -1,7 +1,8 @@
 <?php
 
+namespace Blooengine\Components;
 /**
- * Абстрактный класс AdminBase содержит общую логику для контроллеров, которые 
+ * Абстрактный класс AdminBase содержит общую логику для контроллеров, которые
  * используются в панели администратора
  */
 abstract class AdminBase
@@ -11,7 +12,7 @@ abstract class AdminBase
      * Метод, который проверяет пользователя на то, является ли он администратором
      * @return boolean
      */
-    public static function checkAdmin()
+    public static function checkAdmin(): bool
     {
         // Проверяем авторизирован ли пользователь. Если нет, он будет переадресован
         $userId = User::checkLogged();

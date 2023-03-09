@@ -1,5 +1,10 @@
 <?php
 
+namespace Blooengine\Models;
+
+use Blooengine\Components\Db;
+use PDO;
+
 /**
  * Класс Order - модель для работы с заказами
  */
@@ -7,7 +12,7 @@ class Order
 {
 
     /**
-     * Сохранение заказа 
+     * Сохранение заказа
      * @param string $userName <p>Имя</p>
      * @param string $userPhone <p>Телефон</p>
      * @param string $userComment <p>Комментарий</p>
@@ -15,14 +20,14 @@ class Order
      * @param array $products <p>Массив с товарами</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function save($userName, $userPhone, $userComment, $userId, $products)
+    public static function save(string $userName, string $userPhone, string $userComment, int $userId, array $products): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
         $sql = 'INSERT INTO product_order (user_name, user_phone, user_comment, user_id, products) '
-                . 'VALUES (:user_name, :user_phone, :user_comment, :user_id, :products)';
+            . 'VALUES (:user_name, :user_phone, :user_comment, :user_id, :products)';
 
         $products = json_encode($products);
 
@@ -40,7 +45,7 @@ class Order
      * Возвращает список заказов
      * @return array <p>Список заказов</p>
      */
-    public static function getOrdersList()
+    public static function getOrdersList(): array
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -60,12 +65,12 @@ class Order
         return $ordersList;
     }
 
-    
-    public static function getOrdersListByName($query)
+
+    public static function getOrdersListByName($query): array
     {
         // Соединение с БД
         $db = Db::getConnection();
-        $query = trim($query); 
+        $query = trim($query);
 //    $query = mysql_real_escape_string($query);
         $query = htmlspecialchars($query);
         // Получение и возврат результатов
@@ -82,15 +87,15 @@ class Order
         }
         return $ordersList;
     }
-    
-    
+
+
     /**
      * Возвращает текстое пояснение статуса для заказа :<br/>
      * <i>1 - Новый заказ, 2 - В обработке, 3 - Доставляется, 4 - Закрыт</i>
      * @param integer $status <p>Статус</p>
      * @return string <p>Текстовое пояснение</p>
      */
-    public static function getStatusText($status)
+    public static function getStatusText(int $status): string
     {
         switch ($status) {
             case '1':
@@ -109,11 +114,11 @@ class Order
     }
 
     /**
-     * Возвращает заказ с указанным id 
+     * Возвращает заказ с указанным id
      * @param integer $id <p>id</p>
      * @return array <p>Массив с информацией о заказе</p>
      */
-    public static function getOrderById($id)
+    public static function getOrderById(int $id): array
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -139,7 +144,7 @@ class Order
      * @param integer $id <p>id заказа</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function deleteOrderById($id)
+    public static function deleteOrderById(int $id): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -163,7 +168,7 @@ class Order
      * @param integer $status <p>Статус <i>(включено "1", выключено "0")</i></p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function updateOrderById($id, $userName, $userPhone, $userComment, $date, $status)
+    public static function updateOrderById(int $id, string $userName, string $userPhone, string $userComment, string $date, int $status): bool
     {
         // Соединение с БД
         $db = Db::getConnection();

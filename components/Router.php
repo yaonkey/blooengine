@@ -1,5 +1,7 @@
 <?php
 
+namespace Blooengine\Components;
+
 /**
  * Класс Router
  * Компонент для работы с маршрутами
@@ -9,10 +11,10 @@ class Router
 
     /**
      * Свойство для хранения массива роутов
-     * @var array 
+     * @var array
      */
-    private $routes;
-    public $noneFound = false;
+    private mixed $routes;
+    public bool $noneFound = false;
 
     /**
      * Конструктор
@@ -33,7 +35,7 @@ class Router
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
-        }else{
+        } else {
             $this->noneFound = true;
         }
     }
@@ -41,7 +43,7 @@ class Router
     /**
      * Метод для обработки запроса
      */
-    public function run()
+    public function run(): void
     {
         // Получаем строку запроса
         $uri = $this->getURI();
@@ -68,7 +70,7 @@ class Router
 
                 // Подключить файл класса-контроллера
                 $controllerFile = ROOT . '/controllers/' .
-                        $controllerName . '.php';
+                    $controllerName . '.php';
 
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
@@ -80,21 +82,19 @@ class Router
                 /* Вызываем необходимый метод ($actionName) у определенного 
                  * класса ($controllerObject) с заданными ($parameters) параметрами
                  */
-                
+
                 $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
-                
+
                 // Если метод контроллера успешно вызван, завершаем работу роутера
                 if ($result != null) {
                     break;
-                }else{
+                } else {
                     $this->noneFound = true;
                 }
             }
-            
-            
         }
-        if ($this->noneFound){
-            include 'models/404.php';
+        if ($this->noneFound) {
+            include 'views/404.php';
         }
     }
 

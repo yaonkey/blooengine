@@ -1,5 +1,13 @@
 <?php
 
+namespace Blooengine\Controllers;
+
+use Blooengine\Components\Cart;
+use Blooengine\Models\Category;
+use Blooengine\Models\Order;
+use Blooengine\Models\Product;
+use Blooengine\Models\User;
+
 /**
  * Контроллер CartController
  * Корзина
@@ -12,7 +20,7 @@ class CartController
      * (для примера, не используется)
      * @param integer $id <p>id товара</p>
      */
-    public function actionAdd($id)
+    public function actionAdd(int $id): void
     {
         // Добавляем товар в корзину
         Cart::addProduct($id);
@@ -26,18 +34,18 @@ class CartController
      * Action для добавления товара в корзину при помощи асинхронного запроса (ajax)
      * @param integer $id <p>id товара</p>
      */
-    public function actionAddAjax($id)
+    public function actionAddAjax(int $id): bool
     {
         // Добавляем товар в корзину и печатаем результат: количество товаров в корзине
         echo Cart::addProduct($id);
         return true;
     }
-    
+
     /**
      * Action для добавления товара в корзину синхронным запросом
      * @param integer $id <p>id товара</p>
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id): void
     {
         // Удаляем заданный товар из корзины
         Cart::deleteProduct($id);
@@ -49,7 +57,7 @@ class CartController
     /**
      * Action для страницы "Корзина"
      */
-    public function actionIndex()
+    public function actionIndex(): bool
     {
         // Список категорий для левого меню
         $categories = Category::getCategoriesList();
@@ -63,7 +71,7 @@ class CartController
             $productsIds = array_keys($productsInCart);
 
             // Получаем массив с полной информацией о необходимых товарах
-            $products = Product::getProdustsByIds($productsIds);
+            $products = Product::getProductsByIds($productsIds);
 
             // Получаем общую стоимость товаров
             $totalPrice = Cart::getTotalPrice($products);
@@ -77,13 +85,13 @@ class CartController
     /**
      * Action для страницы "Оформление покупки"
      */
-    public function actionCheckout()
+    public function actionCheckout(): bool
     {
         // Получием данные из корзины      
         $productsInCart = Cart::getProducts();
 
         // Если товаров нет, отправляем пользователи искать товары на главную
-        if ($productsInCart == false) {
+        if (!$productsInCart) {
             header("Location: /");
         }
 
@@ -92,7 +100,7 @@ class CartController
 
         // Находим общую стоимость
         $productsIds = array_keys($productsInCart);
-        $products = Product::getProdustsByIds($productsIds);
+        $products = Product::getProductsByIds($productsIds);
         $totalPrice = Cart::getTotalPrice($products);
 
         // Количество товаров
@@ -131,14 +139,14 @@ class CartController
 
             // Валидация полей
             if (!User::checkName($userName)) {
-                $errors[] = 'Неправильное имя';
+                $errors = ['Неправильное имя'];
             }
             if (!User::checkPhone($userPhone)) {
-                $errors[] = 'Неправильный телефон';
+                $errors = ['Неправильный телефон'];
             }
 
 
-            if ($errors == false) {
+            if (!$errors) {
                 // Если ошибок нет
                 // Сохраняем заказ в базе данных
                 $result = Order::save($userName, $userPhone, $userComment, $userId, $productsInCart);

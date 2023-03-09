@@ -41,8 +41,7 @@ $(document).ready(function () {
 
         if (next.next().length > 0) {
             next.next().children(':first-child').clone().appendTo($(this));
-        }
-        else {
+        } else {
             $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
         }
     });
