@@ -1,6 +1,8 @@
 <?php
 
 namespace Blooengine\Components;
+use Blooengine\Models\User;
+
 /**
  * Абстрактный класс AdminBase содержит общую логику для контроллеров, которые
  * используются в панели администратора

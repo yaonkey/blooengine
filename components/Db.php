@@ -2,6 +2,8 @@
 
 namespace Blooengine\Components;
 
+use PDO;
+
 /**
  * Класс Db
  * Компонент для работы с базой данных
