@@ -21,7 +21,7 @@ class Pagination
      * @var string Ключ для GET, в который пишется номер страницы
      *
      */
-    private string $index = 'page';
+    private string $index = "page-";
 
     /**
      *
@@ -51,7 +51,7 @@ class Pagination
      * @param int $limit <p>Количество записей на страницу</p>
      * @param int $index <p>Ключ для url</p>
      */
-    public function __construct(int $total, int $currentPage, int $limit, int $index)
+    public function __construct(int $total, int $currentPage, int $limit, string $index)
     {
         # Устанавливаем общее количество записей
         $this->total = $total;

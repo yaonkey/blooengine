@@ -1,9 +1,10 @@
 <?php
 
+$env = parse_ini_file(ROOT . '/.env');
 return array(
-    'host' => getenv('HOST') ?: "localhost",
-    'port' => getenv('PORT') ?: 3306,
-    'user' => getenv('USER') ?: "root",
-    'password' => getenv('PASSWORD') ?: "",
-    'dbname' => getenv("DBNAME") ?: "Blooen",
+    'host' => $env['HOST'] ?: "localhost",
+    'port' => $env['PORT'] ?: 3306,
+    'user' => $env['USER'] ?: "root",
+    'password' => $env['PASSWORD'] ?: "",
+    'dbname' => $env["DBNAME"] ?: "Blooen",
 );

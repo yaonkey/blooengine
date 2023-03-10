@@ -8,7 +8,7 @@
     <body>
     <div>
         <h2>Страница не найдена!</h2>
-        <img src='../index.php' alt='404'>
+        <img src='../upload/404.png' alt='404'>
 
     </div>
     </body>

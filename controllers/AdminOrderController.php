@@ -1,7 +1,5 @@
 <?php
 
-namespace Blooengine\Controllers;
-
 use Blooengine\Components\AdminBase;
 use Blooengine\Models\Order;
 use Blooengine\Models\Product;

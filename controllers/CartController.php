@@ -1,7 +1,5 @@
 <?php
 
-namespace Blooengine\Controllers;
-
 use Blooengine\Components\Cart;
 use Blooengine\Models\Category;
 use Blooengine\Models\Order;

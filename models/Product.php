@@ -8,7 +8,7 @@ use PDO;
 /**
  * Класс Product - модель для работы с товарами
  */
-class Product
+class Product implements Model
 {
 
     // Количество отображаемых товаров по умолчанию
@@ -204,7 +204,7 @@ class Product
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT count(id) AS count FROM product WHERE status="1" AND category_id = :category_id';
+        $sql = 'SELECT count(id) AS count FROM product WHERE status=1 AND category_id = :category_id';
 
         // Используется подготовленный запрос
         $result = $db->prepare($sql);
@@ -232,7 +232,7 @@ class Product
         $idsString = implode(',', $idsArray);
 
         // Текст запроса к БД
-        $sql = "SELECT * FROM product WHERE status='1' AND id IN ($idsString)";
+        $sql = "SELECT * FROM product WHERE status=1 AND id IN ($idsString)";
 
         $result = $db->query($sql);
 
@@ -263,7 +263,7 @@ class Product
 
         // Получение и возврат результатов
         $result = $db->query('SELECT id, name, price, is_new FROM product '
-            . 'WHERE status = "1" AND is_recommended = "1" '
+            . 'WHERE status = 1 AND is_recommended = 1 '
             . 'ORDER BY id DESC');
         $i = 0;
         $productsList = array();
@@ -350,7 +350,7 @@ class Product
         $result->bindParam(':id', $id, PDO::PARAM_INT);
         $result->bindParam(':name', $options['name'], PDO::PARAM_STR);
         $result->bindParam(':code', $options['code'], PDO::PARAM_STR);
-        $result->bindParam(':price', $options['price'], PDO::PARAM_STR);
+        $result->bindParam(':price', $options['price'], PDO::PARAM_INT);
         $result->bindParam(':category_id', $options['category_id'], PDO::PARAM_INT);
         $result->bindParam(':brand', $options['brand'], PDO::PARAM_STR);
         $result->bindParam(':availability', $options['availability'], PDO::PARAM_INT);
@@ -410,10 +410,10 @@ class Product
         switch ($availability) {
             case '1':
                 return 'В наличии';
-                break;
             case '0':
                 return 'Под заказ';
-                break;
+            default:
+                return '';
         }
     }
 
@@ -441,6 +441,33 @@ class Product
 
         // Возвращаем путь изображения-пустышки
         return $path . $noImage;
+    }
+
+    /**
+     * Метод для создания таблицы Product
+     * @return bool Создана ли таблица
+     */
+    public static function createTable(string $db_name): bool
+    {
+        $db = Db::getConnection();
+
+        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.product (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(512) NOT NULL, code VARCHAR(128) NOT NULL, price DOUBLE NOT NULL, category_id INT NOT NULL DEFAULT '0', brand VARCHAR(512) NULL, availability INT NOT NULL DEFAULT '0', description TEXT NOT NULL, is_new INT NOT NULL DEFAULT '0', is_recommended INT NOT NULL DEFAULT '0', status INT NOT NULL DEFAULT '0', PRIMARY KEY (`id`))";
+        $result = $db->prepare($query);
+        return $result->execute();
+    }
+
+    /**
+     * Метод, позволяющий получить все данные из таблицы Product
+     * @return array Данные из таблицы Product
+     */
+    public static function getAllFromTable(): array
+    {
+        $db = Db::getConnection();
+        $query = "SELECT * FROM product;";
+        $result = $db->prepare($query);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->execute();
+        return $result->fetchall();
     }
 
 }

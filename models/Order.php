@@ -8,7 +8,7 @@ use PDO;
 /**
  * Класс Order - модель для работы с заказами
  */
-class Order
+class Order implements Model
 {
 
     /**
@@ -100,16 +100,14 @@ class Order
         switch ($status) {
             case '1':
                 return 'Новый заказ';
-                break;
             case '2':
                 return 'В обработке';
-                break;
             case '3':
                 return 'Доставляется';
-                break;
             case '4':
                 return 'Закрыт';
-                break;
+            default:
+                return '';
         }
     }
 
@@ -194,4 +192,30 @@ class Order
         return $result->execute();
     }
 
+    /**
+     * Метод для создания таблицы Order
+     * @return bool Создана ли таблица
+     */
+    public static function createTable(string $db_name): bool
+    {
+        $db = Db::getConnection();
+
+        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.order (id INT NOT NULL AUTO_INCREMENT, user_name VARCHAR(512) NOT NULL, user_phone VARCHAR(128) NOT NULL, user_comment TEXT, date VARCHAR(64) NOT NULL, status INT NOT NULL DEFAULT '0', PRIMARY KEY (`id`))";
+        $result = $db->prepare($query);
+        return $result->execute();
+    }
+
+    /**
+     * Метод, позволяющий получить все данные из таблицы Order
+     * @return array Данные из таблицы Order
+     */
+    public static function getAllFromTable(): array
+    {
+        $db = Db::getConnection();
+        $query = "SELECT * FROM order;";
+        $result = $db->prepare($query);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->execute();
+        return $result->fetchall();
+    }
 }

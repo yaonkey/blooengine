@@ -8,7 +8,7 @@ use PDO;
 /**
  * Класс User - модель для работы с пользователями
  */
-class User
+class User implements Model
 {
 
     /**
@@ -101,8 +101,6 @@ class User
 
         // Получение результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-//        $result->bindParam(':email', $email, PDO::PARAM_INT);
-//        $result->bindParam(':password', $password, PDO::PARAM_INT);
         $result->execute();
 
         // Обращаемся к записи
@@ -131,7 +129,7 @@ class User
      * Иначе перенаправляет на страницу входа
      * @return string <p>Идентификатор пользователя</p>
      */
-    public static function checkLogged()
+    public static function checkLogged(): string
     {
         // Если сессия есть, вернем идентификатор пользователя
         if (isset($_SESSION['user'])) {
@@ -147,10 +145,7 @@ class User
      */
     public static function isGuest(): bool
     {
-        if (isset($_SESSION['user'])) {
-            return false;
-        }
-        return true;
+        return !isset($_SESSION['user']);
     }
 
     /**
@@ -160,10 +155,7 @@ class User
      */
     public static function checkName(string $name): bool
     {
-        if (strlen($name) >= 2) {
-            return true;
-        }
-        return false;
+        return (strlen($name) >= 2);
     }
 
     /**
@@ -173,10 +165,7 @@ class User
      */
     public static function checkPhone(string $phone): bool
     {
-        if (strlen($phone) >= 10 && preg_match("/[+7,8][0-9]{10,10}+$/", $phone)) {
-            return true;
-        }
-        return false;
+        return strlen($phone) >= 10 && preg_match("/[+7,8][0-9]{10,10}+$/", $phone);
     }
 
     /**
@@ -207,10 +196,10 @@ class User
 
     /**
      * Проверяет не занят ли email другим пользователем
-     * @param type $email <p>E-mail</p>
+     * @param string $email <p>E-mail</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function checkEmailExists(type $email): bool
+    public static function checkEmailExists(string $email): bool
     {
         // Соединение с БД        
         $db = Db::getConnection();
@@ -250,6 +239,33 @@ class User
         $result->execute();
 
         return $result->fetch();
+    }
+
+    /**
+     * Метод для создания таблицы User
+     * @return bool Создана ли таблица
+     */
+    public static function createTable(string $db_name): bool
+    {
+        $db = Db::getConnection();
+
+        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.user (id INT NOT NULL AUTO_INCREMENT, role varchar(64), name VARCHAR(512) NOT NULL, phone VARCHAR(128), email varchar(512), password TEXT NOT NULL, PRIMARY KEY (`id`))";
+        $result = $db->prepare($query);
+        return $result->execute();
+    }
+
+    /**
+     * Метод, позволяющий получить все данные из таблицы User
+     * @return array Данные из таблицы User
+     */
+    public static function getAllFromTable(): array
+    {
+        $db = Db::getConnection();
+        $query = "SELECT * FROM user;";
+        $result = $db->prepare($query);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->execute();
+        return $result->fetchall();
     }
 
 }

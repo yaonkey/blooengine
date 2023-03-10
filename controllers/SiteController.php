@@ -1,7 +1,5 @@
 <?php
 
-namespace Blooengine\Controllers;
-
 use Blooengine\Models\Product;
 use Blooengine\Models\User;
 

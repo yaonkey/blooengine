@@ -8,16 +8,19 @@ use PDO;
 /**
  * Класс Category - модель для работы с категориями товаров
  */
-class Category
+class Category implements Model
 {
 
+    /**
+     * Метод, позвооляющий получить количество страниц
+     * @return mixed Количество страниц
+     */
     public static function getTotalPages()
     {
         $db = Db::getConnection();
         $res = $db->query("SELECT COUNT(*) FROM `product`");
         $row = $res->fetch();
-        $total = $row[0]; // всего записей
-        return $total;
+        return $row[0];
     }
 
     /**
@@ -30,9 +33,7 @@ class Category
         $db = Db::getConnection();
 
         // Запрос к БД
-        $result = $db->query('SELECT id, name, type FROM category WHERE status = "1" ORDER BY sort_order, name ASC');
-//         $result = $db->query('SELECT * FROM product');
-//         print_r($result);
+        $result = $db->query('SELECT id, name, parent_id FROM category WHERE status = "1" ORDER BY sort_order, name ASC');
 
         // Получение и возврат результатов
         $i = 0;
@@ -40,7 +41,7 @@ class Category
         while ($row = $result->fetch()) {
             $categoryList[$i]['id'] = $row['id'];
             $categoryList[$i]['name'] = $row['name'];
-            $categoryList[$i]['type'] = $row['type'];
+            $categoryList[$i]['parent_id'] = $row['parent_id'];
             $i++;
         }
         return $categoryList;
@@ -53,7 +54,7 @@ class Category
         $db = Db::getConnection();
 
         // Запрос к БД
-        $result = $db->query('SELECT id, name, sort_order, status, type FROM category ORDER BY sort_order ASC');
+        $result = $db->query('SELECT id, name, sort_order, status, parent_id FROM category ORDER BY sort_order ASC');
 
         // Получение и возврат результатов
         $categoryList = array();
@@ -63,7 +64,7 @@ class Category
             $categoryList[$i]['name'] = $row['name'];
             $categoryList[$i]['sort_order'] = $row['sort_order'];
             $categoryList[$i]['status'] = $row['status'];
-            $categoryList[$i]['type'] = $row['type'];
+            $categoryList[$i]['parent_id'] = $row['parent_id'];
             $i++;
         }
         return $categoryList;
@@ -83,7 +84,7 @@ class Category
 //    $query = mysql_real_escape_string($query);
         $query = htmlspecialchars($query);
         // Запрос к БД
-        $result = $db->query("SELECT `id`, `name`, `sort_order`, `status`
+        $result = $db->query("SELECT id, name, sort_order, status, parent_id
                   FROM `category` WHERE `name` LIKE '%$query%'");
 
         // Получение и возврат результатов
@@ -94,6 +95,7 @@ class Category
             $categoryList[$i]['name'] = $row['name'];
             $categoryList[$i]['sort_order'] = $row['sort_order'];
             $categoryList[$i]['status'] = $row['status'];
+            $categoryList[$i]['parent_id'] = $row['parent_id'];
             $i++;
         }
         return $categoryList;
@@ -126,7 +128,7 @@ class Category
      * @param integer $status <p>Статус <i>(включено "1", выключено "0")</i></p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function updateCategoryById(int $id, string $name, int $sortOrder, int $status, $type): bool
+    public static function updateCategoryById(int $id, string $name, int $sortOrder, int $status, int $parent_id): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
@@ -137,7 +139,7 @@ class Category
                 name = :name, 
                 sort_order = :sort_order, 
                 status = :status,
-                type = :type
+                parent_id = :parent_id
             WHERE id = :id";
 
         // Получение и возврат результатов. Используется подготовленный запрос
@@ -146,7 +148,7 @@ class Category
         $result->bindParam(':name', $name, PDO::PARAM_STR);
         $result->bindParam(':sort_order', $sortOrder, PDO::PARAM_INT);
         $result->bindParam(':status', $status, PDO::PARAM_INT);
-        $result->bindParam(':type', $type, PDO::PARAM_INT);
+        $result->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
         return $result->execute();
     }
 
@@ -188,26 +190,10 @@ class Category
         switch ($status) {
             case '1':
                 return 'Отображается';
-                break;
             case '0':
                 return 'Скрыта';
-                break;
-        }
-    }
-
-
-    public static function getTypeGood($type)
-    {
-        if ($type == 0) {
-            return 'Аксессуары';
-        } elseif ($type == 1) {
-            return 'Кальяны';
-        } elseif ($type == 2) {
-            return 'Уголь';
-        } elseif ($type == 3) {
-            return 'Чаши';
-        } elseif ($type == 4) {
-            return 'Кальянные смеси';
+            default:
+                return '';
         }
     }
 
@@ -218,22 +204,50 @@ class Category
      * @param integer $status <p>Статус <i>(включено "1", выключено "0")</i></p>
      * @return boolean <p>Результат добавления записи в таблицу</p>
      */
-    public static function createCategory(string $name, int $sortOrder, int $status, $type): bool
+    public static function createCategory(string $name, int $sortOrder, int $status, int $parent_id = 0): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'INSERT INTO category (name, sort_order, status, type) '
-            . 'VALUES (:name, :sort_order, :status, :type)';
+        $sql = 'INSERT INTO category (name, sort_order, status, parent_id) '
+            . 'VALUES (:name, :sort_order, :status, :parent_id)';
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
         $result->bindParam(':name', $name, PDO::PARAM_STR);
         $result->bindParam(':sort_order', $sortOrder, PDO::PARAM_INT);
         $result->bindParam(':status', $status, PDO::PARAM_INT);
-        $result->bindParam(':type', $type, PDO::PARAM_INT);
+        $result->bindParam(':parent_id', $parent_id, PDO::PARAM_INT);
         return $result->execute();
     }
+
+    /**
+     * Метод для создания таблицы Category
+     * @return bool Создана ли таблица
+     */
+    public static function createTable(string $db_name): bool
+    {
+        $db = Db::getConnection();
+
+        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.category (id INT NOT NULL AUTO_INCREMENT, name VARCHAR(512) NOT NULL, sort_order INT NOT NULL DEFAULT '0', status INT NOT NULL DEFAULT '0', parent_id INT DEFAULT '0', PRIMARY KEY (`id`))";
+        $result = $db->prepare($query);
+        return $result->execute();
+    }
+
+    /**
+     * Метод, позволяющий получить все данные из таблицы Category
+     * @return array Данные из таблицы Category
+     */
+    public static function getAllFromTable(): array
+    {
+        $db = Db::getConnection();
+        $query = "SELECT * FROM category;";
+        $result = $db->prepare($query);
+        $result->setFetchMode(PDO::FETCH_ASSOC);
+        $result->execute();
+        return $result->fetchall();
+    }
+
 
 }
