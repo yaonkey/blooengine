@@ -2,7 +2,7 @@
 
 namespace Blooengine\Components;
 
-use Exception;
+use Blooengine\Models\Settings;
 use TypeError;
 
 /**
@@ -48,6 +48,8 @@ class Router
      */
     public function run(): void
     {
+        $theme = Settings::getOptionValue("theme") ?: 'default';
+        define('THEME', ROOT . "/views/" . $theme . "/");
         // Получаем строку запроса
         $uri = $this->getURI();
 
@@ -97,7 +99,7 @@ class Router
             }
         }
         if ($this->noneFound) {
-            include 'views/404.php';
+            include_once THEME . '404.php';
         }
     }
 

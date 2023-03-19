@@ -17,7 +17,7 @@ class AdminCategoryController extends AdminBase
     {
         self::checkAdmin();
 
-        require_once(ROOT . '/views/admin_category/createHeader.php');
+        require_once(THEME . 'admin_category/createHeader.php');
         return true;
     }
 
@@ -37,10 +37,10 @@ class AdminCategoryController extends AdminBase
         }
 
         // Получаем список категорий
-//        $categoriesList = Category::getCategoriesListAdmin();
+        $categoriesList = Category::getCategoriesListAdmin();
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_category/index.php');
+        require_once(THEME . 'admin_category/index.php');
         return true;
     }
 
@@ -80,7 +80,7 @@ class AdminCategoryController extends AdminBase
             }
         }
 
-        require_once(ROOT . '/views/admin_category/create.php');
+        require_once(THEME . 'admin_category/create.php');
         return true;
     }
 
@@ -112,7 +112,7 @@ class AdminCategoryController extends AdminBase
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_category/update.php');
+        require_once(THEME . 'admin_category/update.php');
         return true;
     }
 
@@ -135,7 +135,7 @@ class AdminCategoryController extends AdminBase
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_category/delete.php');
+        require_once(THEME . 'admin_category/delete.php');
         return true;
     }
 

@@ -56,7 +56,7 @@ class UserController
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/user/register.php');
+        require_once(THEME . 'user/register.php');
         return true;
     }
 
@@ -105,7 +105,7 @@ class UserController
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/user/login.php');
+        require_once(THEME . 'user/login.php');
         return true;
     }
 
@@ -114,9 +114,6 @@ class UserController
      */
     public function actionLogout(): void
     {
-        // Стартуем сессию
-        //session_start();
-
         // Удаляем информацию о пользователе из сессии
         unset($_SESSION["user"]);
 

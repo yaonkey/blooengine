@@ -1,6 +1,7 @@
 <?php
 
 use Blooengine\Models\Category;
+use Blooengine\Models\Product;
 
 /**
  * Контроллер ProductController
@@ -22,7 +23,7 @@ class ProductController
         $product = Product::getProductById($productId);
 
         // Подключаем вид
-        require_once(ROOT . '/views/product/view.php');
+        require_once(THEME . 'product/view.php');
         return true;
     }
 

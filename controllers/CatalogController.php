@@ -14,7 +14,7 @@ class CatalogController
     /**
      * Action для страницы "Каталог товаров"
      */
-    public function actionIndex($page = 1): bool
+    public function actionIndex(int $page = 1): bool
     {
         $searchError = false;
         $categories = Category::getCategoriesList();
@@ -29,7 +29,7 @@ class CatalogController
         $pagination = new Pagination($total, $page, Product::SHOW_BY_DEFAULT, 'page-');
 
         // Подключаем вид
-        require_once(ROOT . '/views/catalog/index.php');
+        require_once(THEME . 'catalog/index.php');
         return true;
     }
 
@@ -43,14 +43,14 @@ class CatalogController
         // Список товаров в категории
         $categoryProducts = Product::getProductsListByCategory($categoryId, $page);
 
-        // Общее количетсво товаров (необходимо для постраничной навигации)
+        // Общее количество товаров (необходимо для постраничной навигации)
         $total = Product::getTotalProductsInCategory($categoryId);
 
         // Создаем объект Pagination - постраничная навигация
         $pagination = new Pagination($total, $page, Product::SHOW_BY_DEFAULT, 'page-');
 
         // Подключаем вид
-        require_once(ROOT . '/views/catalog/category.php');
+        require_once(THEME . 'catalog/category.php');
         return true;
     }
 

@@ -1,5 +1,6 @@
 <?php
 
+use Blooengine\Models\Category;
 use Blooengine\Models\Product;
 use Blooengine\Models\User;
 
@@ -8,6 +9,7 @@ use Blooengine\Models\User;
  */
 class SiteController
 {
+//    private $
 
     /**
      * Action для главной страницы
@@ -15,7 +17,7 @@ class SiteController
     public function actionIndex(): bool
     {
         // Список категорий для левого меню
-        //$categories = Category::getCategoriesList();
+        $categories = Category::getCategoriesList();
 
         // Список последних товаров
         $latestProducts = Product::getNewProducts(6);
@@ -24,7 +26,7 @@ class SiteController
         $sliderProducts = Product::getRecommendedProducts();
 
         // Подключаем вид
-        require_once(ROOT . '/views/site/index.php');
+        require_once(THEME . 'site/index.php');
         return true;
     }
 
@@ -66,7 +68,7 @@ class SiteController
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/site/contact.php');
+        require_once(THEME . 'site/contact.php');
         return true;
     }
 
@@ -76,7 +78,7 @@ class SiteController
     public function actionAbout(): bool
     {
         // Подключаем вид
-        require_once(ROOT . '/views/site/about.php');
+        require_once(THEME . 'site/about.php');
         return true;
     }
 

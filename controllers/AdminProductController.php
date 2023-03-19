@@ -25,10 +25,10 @@ class AdminProductController extends AdminBase
             $productsList = Product::getProductsList();
         }
         // Получаем список товаров
-//        $productsList = Product::getProductsList();
+        $productsList = Product::getProductsList();
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_product/index.php');
+        require_once(THEME . 'admin_product/index.php');
         return true;
     }
 
@@ -86,7 +86,7 @@ class AdminProductController extends AdminBase
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_product/create.php');
+        require_once(THEME . 'admin_product/create.php');
         return true;
     }
 
@@ -137,7 +137,7 @@ class AdminProductController extends AdminBase
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_product/update.php');
+        require_once(THEME . 'admin_product/update.php');
         return true;
     }
 
@@ -160,7 +160,7 @@ class AdminProductController extends AdminBase
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin_product/delete.php');
+        require_once(THEME . 'admin_product/delete.php');
         return true;
     }
 

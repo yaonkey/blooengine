@@ -16,7 +16,6 @@ session_start();
 // Проверка существования бд
 Db::getConnection();
 
-
 // Вызов Router
 $router = new Router();
 $router->run();

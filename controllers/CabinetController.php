@@ -24,7 +24,7 @@ class CabinetController
         $isAdmin = User::checkAdmin($userId);
 
         // Подключаем вид
-        require_once(ROOT . '/views/cabinet/index.php');
+        require_once(THEME . 'cabinet/index.php');
         return true;
     }
 
@@ -71,7 +71,7 @@ class CabinetController
         }
 
         // Подключаем вид
-        require_once(ROOT . '/views/cabinet/edit.php');
+        require_once(THEME . 'cabinet/edit.php');
         return true;
     }
 

@@ -50,13 +50,15 @@ class User implements Model
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'INSERT INTO user VALUES (NULL, :name, :email, :password, "")';
+        $sql = "INSERT INTO user (name, email, password) VALUES (':name', ':email', ':password')";
+
+        $pass = hash('sha256', $password);
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
         $result->bindParam(':name', $name, PDO::PARAM_STR);
         $result->bindParam(':email', $email, PDO::PARAM_STR);
-        $result->bindParam(':password', $password, PDO::PARAM_STR);
+        $result->bindParam(':password', $pass, PDO::PARAM_STR);
         return $result->execute();
     }
 
@@ -95,9 +97,10 @@ class User implements Model
     {
         // Соединение с БД
         $db = Db::getConnection();
+        $pass = hash('sha256', $password);
 
         // Текст запроса к БД
-        $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$password'";
+        $sql = "SELECT * FROM user WHERE email = '$email' AND password = '$pass'";
 
         // Получение результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
@@ -249,7 +252,7 @@ class User implements Model
     {
         $db = Db::getConnection();
 
-        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.user (id INT NOT NULL AUTO_INCREMENT, role varchar(64), name VARCHAR(512) NOT NULL, phone VARCHAR(128), email varchar(512), password TEXT NOT NULL, PRIMARY KEY (`id`))";
+        $query = "CREATE TABLE IF NOT EXISTS {$db_name}.user (id INT NOT NULL AUTO_INCREMENT, role varchar(64) NOT NULL DEFAULT 'user', name VARCHAR(512) NOT NULL, phone VARCHAR(128), email varchar(512), password TEXT NOT NULL, PRIMARY KEY (`id`))";
         $result = $db->prepare($query);
         return $result->execute();
     }
@@ -266,6 +269,31 @@ class User implements Model
         $result->setFetchMode(PDO::FETCH_ASSOC);
         $result->execute();
         return $result->fetchall();
+    }
+
+    /**
+     * Регистрация первого администратора
+     * @param string $name <p>Имя</p>
+     * @param string $email <p>E-mail</p>
+     * @param string $password <p>Пароль</p>
+     * @return boolean <p>Результат выполнения метода</p>
+     */
+    public static function createSuperadmin(string $name, string $email, string $password): bool
+    {
+        // Соединение с БД
+        $db = Db::getConnection();
+
+        // Текст запроса к БД
+        $sql = "INSERT INTO user (`name`, `email`, `password`, `role`) VALUES (':name', ':email', ':password', 'admin')";
+
+        $pass = hash('sha256', $password);
+
+        // Получение и возврат результатов. Используется подготовленный запрос
+        $result = $db->prepare($sql);
+        $result->bindParam(':name', $name, PDO::PARAM_STR);
+        $result->bindParam(':email', $email, PDO::PARAM_STR);
+        $result->bindParam(':password', $pass, PDO::PARAM_STR);
+        return $result->execute();
     }
 
 }

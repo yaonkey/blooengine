@@ -4,6 +4,7 @@ namespace Blooengine\Components;
 
 use Blooengine\Models\Category;
 use Blooengine\Models\Order;
+use Blooengine\Models\Pages;
 use Blooengine\Models\Product;
 use Blooengine\Models\Settings;
 use Blooengine\Models\User;
@@ -29,9 +30,7 @@ class Db
         // Устанавливаем соединение
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']}";
         try {
-            $db = new PDO($dsn, $params['user'], $params['password']);
-
-            return $db;
+            return new PDO($dsn, $params['user'], $params['password']);
         } catch (PDOException $e) {
             print_r("{$e}");
             self::firstInit($params);
@@ -52,6 +51,7 @@ class Db
         Product::createTable($params['dbname']);
         Settings::createTable($params['dbname']);
         User::createTable($params['dbname']);
+        Pages::createTable($params['dbname']);
 
         header("/admin");
 

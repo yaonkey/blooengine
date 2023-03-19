@@ -17,7 +17,7 @@ class AdminController extends AdminBase
         self::checkAdmin();
 
         // Подключаем вид
-        require_once(ROOT . '/views/admin/index.php');
+        require_once(THEME . 'admin/index.php');
         return true;
     }
 
