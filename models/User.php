@@ -225,7 +225,7 @@ class User implements Model
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT * FROM user WHERE id = $id';
+        $sql = "SELECT * FROM user WHERE id = $id";
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);

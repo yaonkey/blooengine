@@ -9,16 +9,12 @@ define('ROOT', $_SERVER['DOCUMENT_ROOT']);
 require_once(ROOT . '/components/Autoload.php');
 
 use Blooengine\Components\Router;
+use Blooengine\Components\Functions;
 
 session_start();
 
-try {
-    if (!\Blooengine\Components\Db::checkConnection()) {
+if (!Functions::isLock() && !\Blooengine\Components\Db::checkConnection()) { print_r("go to route <a href='/createadmin'>/createadmin</a> for create admin<br>");}
 
-    }
-} catch (PDOException $e) {
-    print_r($e);
-}
 
 // Вызов Router
 $router = new Router();

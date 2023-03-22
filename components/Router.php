@@ -84,7 +84,7 @@ class Router
             }
         }
         if ($this->noneFound) {
-            include_once ROOT . '/views/default/404.php'; // todo fix it
+            include_once ROOT . '/views/default/404.php';
         }
     }
 

@@ -3,6 +3,7 @@
 namespace Blooengine\Models;
 
 use Blooengine\Components\Db;
+use Blooengine\Components\Functions;
 use PDO;
 
 class Settings implements Model
@@ -104,6 +105,7 @@ class Settings implements Model
         self::addOption('region', 'eu', 'Site region') &&
         self::addOption('theme', 'default', 'Option with site theme') &&
         self::addOption('lang', 'ru', 'Site language');
+        Functions::inputLock();
     }
 
     /**
