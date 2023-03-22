@@ -7,18 +7,33 @@ use PDO;
 
 class Settings implements Model
 {
+    private string $siteName;
+    private string $siteEmail;
+
+    public function __construct(string $siteName, string $siteEmail)
+    {
+        $this->siteName = $siteName;
+        $this->siteEmail = $siteEmail;
+    }
+
+    public static function createTable(string $db_name): bool
+    {
+        return false;
+    }
+
     /**
      * Метод для создания таблицы Settings
      * @return bool Создана ли таблица
      */
-    public static function createTable(string $db_name): bool
+    public function createFTable(string $db_name): bool
     {
         $db = Db::getConnection();
 
         $query = "CREATE TABLE IF NOT EXISTS {$db_name}.settings (`option` VARCHAR(128) NOT NULL UNIQUE, `value` VARCHAR(512) NOT NULL, `comment` text)";
         $result = $db->prepare($query);
-        self::firstInit();
-        return $result->execute();
+        $result->execute();
+        $this->firstInit();
+        return true;
     }
 
     /**
@@ -79,18 +94,16 @@ class Settings implements Model
 
     /**
      * Метод первой инициации таблицы
-     * @param string $siteName Название сайта
-     * @param string $siteEmail Email сайта
-     * @return bool
+     * @return void
      */
-    private static function firstInit(string $siteName, string $siteEmail): bool
+    private function firstInit(): void
     {
-        return
-            self::addOption('site_name', $siteName, 'Option with site name') &&
-            self::addOption('site_email', $siteEmail, 'Option with site email') &&
-            self::addOption('is_available', '1', 'Is site available for all users') &&
-            self::addOption('region', 'eu', 'Site region') &&
-            self::addOption('theme', 'default', 'Option with site theme');
+        self::addOption('site_name', $this->siteName, 'Option with site name') &&
+        self::addOption('site_email', $this->siteEmail, 'Option with site email') &&
+        self::addOption('is_available', '1', 'Is site available for all users') &&
+        self::addOption('region', 'eu', 'Site region') &&
+        self::addOption('theme', 'default', 'Option with site theme') &&
+        self::addOption('lang', 'ru', 'Site language');
     }
 
     /**
@@ -104,11 +117,9 @@ class Settings implements Model
     {
         $db = Db::getConnection();
 
-        $query = "INSERT INTO settings VALUES (':option_name', ':option_value', ':option_comment')";
+        $query = "INSERT INTO settings VALUES ('$optionName', '$optionValue', '$optionComment')";
         $result = $db->prepare($query);
-        $result->bindParam(':option_name', $optionName);
-        $result->bindParam(':option_value', $optionValue);
-        $result->bindParam(':option_comment', $optionComment);
+        print_r($result);
         return $result->execute();
     }
 
@@ -124,6 +135,21 @@ class Settings implements Model
         $query = "UPDATE settings SET `value` = ':theme_name' WHERE `option` = 'theme'";
         $result = $db->prepare($query);
         $result->bindParam(':theme_name', $themeName);
+        return $result->execute();
+    }
+
+    /**
+     * Метод для изменения языка сайта
+     * @param string $siteLang Язык сайта в формате ru
+     * @return bool
+     */
+    public static function changeLang(string $siteLang): bool
+    {
+        $db = Db::getConnection();
+
+        $query = "UPDATE settings SET `value` = ':lang' WHERE `option` = 'lang'";
+        $result = $db->prepare($query);
+        $result->bindParam(':lang', $siteLang);
         return $result->execute();
     }
 
@@ -165,10 +191,12 @@ class Settings implements Model
     {
         $db = Db::getConnection();
 
-        $query = "SELECT `value` FROM settings WHERE `option` = ':option_name'";
-        $result = $db->prepare($query);
-        $result->bindParam(':option_name', $optionName);
-        return $result->fetch();
+        if ($db) {
+            $query = "SELECT `value` FROM settings WHERE `option` = '$optionName'";
+            $result = $db->prepare($query);
+            return $result->fetch();
+        }
+        return 'default';
     }
 
     /**

@@ -5,7 +5,7 @@ return array(
     'product/([0-9]+)' => 'product/view/$1', // actionView в ProductController
     // Каталог:
     'catalog/page-([0-9]+)' => 'catalog/index/$1', // actionIndex в CatalogController
-//    'catalog/' => 'catalog/index',
+    'catalog/' => 'catalog/index',
     // Категория товаров:
     'category/([0-9]+)/page-([0-9]+)' => 'catalog/category/$1/$2', // actionCategory в CatalogController   
     'category/([0-9]+)' => 'catalog/category/$1', // actionCategory в CatalogController
@@ -38,6 +38,8 @@ return array(
     'admin/order' => 'adminOrder/index',
     // Админпанель:
     'admin' => 'admin/index',
+    // Создание суперадминистратора
+    'createadmin' => 'createAdmin/index',
     // О магазине
     'contacts' => 'site/contact',
     'about' => 'site/about',

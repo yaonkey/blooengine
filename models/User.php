@@ -49,16 +49,12 @@ class User implements Model
         // Соединение с БД
         $db = Db::getConnection();
 
-        // Текст запроса к БД
-        $sql = "INSERT INTO user (name, email, password) VALUES (':name', ':email', ':password')";
-
         $pass = hash('sha256', $password);
+        // Текст запроса к БД
+        $sql = "INSERT INTO user (name, email, password) VALUES ('$name', '$email', '$pass')";
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
-        $result->bindParam(':password', $pass, PDO::PARAM_STR);
         return $result->execute();
     }
 
@@ -74,16 +70,14 @@ class User implements Model
         // Соединение с БД
         $db = Db::getConnection();
 
+        $pass = hash('sha256', $password);
         // Текст запроса к БД
         $sql = "UPDATE user 
-            SET name = :name, password = :password 
-            WHERE id = :id";
+            SET name = '$name', password = '$pass' 
+            WHERE id = $id";
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_INT);
-        $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':password', $password, PDO::PARAM_STR);
         return $result->execute();
     }
 
@@ -140,6 +134,7 @@ class User implements Model
         }
 
         header("Location: /user/login");
+        return '';
     }
 
     /**
@@ -208,11 +203,10 @@ class User implements Model
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT COUNT(*) FROM user WHERE email = :email';
+        $sql = "SELECT COUNT(*) FROM user WHERE email = '$email'";
 
         // Получение результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
         $result->execute();
 
         if ($result->fetchColumn())
@@ -231,11 +225,10 @@ class User implements Model
         $db = Db::getConnection();
 
         // Текст запроса к БД
-        $sql = 'SELECT * FROM user WHERE id = :id';
+        $sql = 'SELECT * FROM user WHERE id = $id';
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':id', $id, PDO::PARAM_INT);
 
         // Указываем, что хотим получить данные в виде массива
         $result->setFetchMode(PDO::FETCH_ASSOC);
@@ -278,21 +271,17 @@ class User implements Model
      * @param string $password <p>Пароль</p>
      * @return boolean <p>Результат выполнения метода</p>
      */
-    public static function createSuperadmin(string $name, string $email, string $password): bool
+    public static function createSuperadmin(string $email, string $password): bool
     {
         // Соединение с БД
         $db = Db::getConnection();
 
-        // Текст запроса к БД
-        $sql = "INSERT INTO user (`name`, `email`, `password`, `role`) VALUES (':name', ':email', ':password', 'admin')";
-
         $pass = hash('sha256', $password);
+        // Текст запроса к БД
+        $sql = "INSERT INTO user (`name`, `email`, `password`, `role`) VALUES ('admin', '$email', '$pass', 'admin')";
 
         // Получение и возврат результатов. Используется подготовленный запрос
         $result = $db->prepare($sql);
-        $result->bindParam(':name', $name, PDO::PARAM_STR);
-        $result->bindParam(':email', $email, PDO::PARAM_STR);
-        $result->bindParam(':password', $pass, PDO::PARAM_STR);
         return $result->execute();
     }
 

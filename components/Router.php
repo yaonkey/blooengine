@@ -3,7 +3,6 @@
 namespace Blooengine\Components;
 
 use Blooengine\Models\Settings;
-use TypeError;
 
 /**
  * Класс Router
@@ -17,18 +16,15 @@ class Router
      * @var array
      */
     private mixed $routes;
-    public bool $noneFound = false;
+    public bool $noneFound = true;
 
     /**
      * Конструктор
      */
     public function __construct()
     {
-        // Путь к файлу с роутами
-        $routesPath = ROOT . '/config/routes.php';
-
         // Получаем роуты из файла
-        $this->routes = include($routesPath);
+        $this->routes = include(ROOT . '/config/routes.php');
     }
 
     /**
@@ -38,8 +34,6 @@ class Router
     {
         if (!empty($_SERVER['REQUEST_URI'])) {
             return trim($_SERVER['REQUEST_URI'], '/');
-        } else {
-            $this->noneFound = true;
         }
     }
 
@@ -48,58 +42,49 @@ class Router
      */
     public function run(): void
     {
-        $theme = Settings::getOptionValue("theme") ?: 'default';
-        define('THEME', ROOT . "/views/" . $theme . "/");
         // Получаем строку запроса
         $uri = $this->getURI();
 
         // Проверяем наличие такого запроса в массиве маршрутов (routes.php)
         foreach ($this->routes as $uriPattern => $path) {
-
-            // Сравниваем $uriPattern и $uri
             if (preg_match("~$uriPattern~", $uri)) {
-
+                if ($uriPattern != $uri && $uri != '') continue;
+                $this->noneFound = false;
                 // Получаем внутренний путь из внешнего согласно правилу.
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 
                 // Определить контроллер, action, параметры
-
                 $segments = explode('/', $internalRoute);
+                if ($segments[0] != 'createadmin') {
+                    if (!defined('THEME')) {
+                        $theme = Settings::getOptionValue("theme") ?: 'default';
+                        define('THEME', ROOT . "/views/" . $theme . "/");
+                    }
+                }
 
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+                $controllerName = ucfirst(array_shift($segments) . 'Controller');
 
                 $actionName = 'action' . ucfirst(array_shift($segments));
 
-                $parameters = $segments;
-
                 // Подключить файл класса-контроллера
-                $controllerFile = ROOT . '/controllers/' .
-                    $controllerName . '.php';
+                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
 
-                if (file_exists($controllerFile)) {
-                    include_once($controllerFile);
-                }
+                if (file_exists($controllerFile)) include_once($controllerFile);
 
                 // Создать объект, вызвать метод (т.е. action)
-                $controllerObject = new $controllerName;
-
-                /* Вызываем необходимый метод ($actionName) у определенного 
-                 * класса ($controllerObject) с заданными ($parameters) параметрами
-                 */
                 try {
-                    $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
-                    if (!$result) {
-                        $this->noneFound = true;
-                    }
-                } catch (TypeError) {
+                    $controllerObject = new $controllerName;
+                } catch (\Error) {
                     $this->noneFound = true;
                 }
-
+                try {
+                    $result = call_user_func_array(array($controllerObject, $actionName), $segments);
+                } catch (\Error) {
+                }
             }
         }
         if ($this->noneFound) {
-            include_once THEME . '404.php';
+            include_once ROOT . '/views/default/404.php'; // todo fix it
         }
     }
 
