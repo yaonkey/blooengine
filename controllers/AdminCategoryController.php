@@ -97,7 +97,7 @@ class AdminCategoryController extends AdminBase
 
         // Обработка формы
         if (isset($_POST['submit'])) {
-            // Если форма отправлена   
+            // Если форма отправлена
             // Получаем данные из формы
             $name = $_POST['name'];
             $sortOrder = $_POST['sort_order'];
@@ -138,5 +138,4 @@ class AdminCategoryController extends AdminBase
         require_once(THEME . 'admin_category/delete.php');
         return true;
     }
-
 }

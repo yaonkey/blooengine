@@ -1,13 +1,14 @@
 <?php
 
 namespace Blooengine\Components;
+
 use Blooengine\Models\User;
 
 /**
  * Абстрактный класс AdminBase содержит общую логику для контроллеров, которые
  * используются в панели администратора
  */
-abstract class AdminBase
+class AdminBase
 {
 
     /**
@@ -30,5 +31,4 @@ abstract class AdminBase
         // Иначе завершаем работу с сообщением об закрытом доступе
         die('Access denied');
     }
-
 }

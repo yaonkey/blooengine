@@ -71,7 +71,7 @@ class Order implements Model
         // Соединение с БД
         $db = Db::getConnection();
         $query = trim($query);
-//    $query = mysql_real_escape_string($query);
+        //    $query = mysql_real_escape_string($query);
         $query = htmlspecialchars($query);
         // Получение и возврат результатов
         $result = $db->query("SELECT id, user_name, user_phone, date, status FROM product_order WHERE `user_name` LIKE '%$query%' ORDER BY id DESC");
@@ -173,12 +173,12 @@ class Order implements Model
 
         // Текст запроса к БД
         $sql = "UPDATE product_order
-            SET 
-                user_name = :user_name, 
-                user_phone = :user_phone, 
-                user_comment = :user_comment, 
-                date = :date, 
-                status = :status 
+            SET
+                user_name = :user_name,
+                user_phone = :user_phone,
+                user_comment = :user_comment,
+                date = :date,
+                status = :status
             WHERE id = :id";
 
         // Получение и возврат результатов. Используется подготовленный запрос

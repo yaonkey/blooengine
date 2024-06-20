@@ -72,8 +72,8 @@ class User implements Model
 
         $pass = hash('sha256', $password);
         // Текст запроса к БД
-        $sql = "UPDATE user 
-            SET name = '$name', password = '$pass' 
+        $sql = "UPDATE user
+            SET name = '$name', password = '$pass'
             WHERE id = $id";
 
         // Получение и возврат результатов. Используется подготовленный запрос
@@ -199,7 +199,7 @@ class User implements Model
      */
     public static function checkEmailExists(string $email): bool
     {
-        // Соединение с БД        
+        // Соединение с БД
         $db = Db::getConnection();
 
         // Текст запроса к БД
@@ -284,5 +284,4 @@ class User implements Model
         $result = $db->prepare($sql);
         return $result->execute();
     }
-
 }

@@ -163,5 +163,4 @@ class AdminProductController extends AdminBase
         require_once(THEME . 'admin_product/delete.php');
         return true;
     }
-
 }

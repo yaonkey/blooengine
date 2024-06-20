@@ -6,5 +6,5 @@ return array(
     'port' => $env['PORT'] ?: 3306,
     'user' => $env['USER'] ?: "root",
     'password' => $env['PASSWORD'] ?: "",
-    'dbname' => $env["DBNAME"] ?: "Blooen",
+    'dbname' => $env["DBNAME"] ?: "blooen",
 );

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -17,11 +17,11 @@
 
                 <h4>Добавить новую категорию</h4>
 
-                <br/>
+                <br />
 
-                <?php if (isset($errors) && is_array($errors)): ?>
+                <?php if (isset($errors) && is_array($errors)) : ?>
                     <ul>
-                        <?php foreach ($errors as $error): ?>
+                        <?php foreach ($errors as $error) : ?>
                             <li> - <?php echo $error; ?></li>
                         <?php endforeach; ?>
                     </ul>
@@ -65,4 +65,3 @@
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

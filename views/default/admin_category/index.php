@@ -1,4 +1,6 @@
-<?php use Blooengine\Models\Category;
+<?php
+
+use Blooengine\Models\Category;
 
 include THEME . 'layouts/header_admin.php'; ?>
 
@@ -6,7 +8,7 @@ include THEME . 'layouts/header_admin.php'; ?>
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-2">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -21,13 +23,12 @@ include THEME . 'layouts/header_admin.php'; ?>
                     заголовок</a>
 
                 <h4>Список категорий</h4>
-                <form name="search" method="post" class='searchform' action="category"
-                      style='padding-left: 15px; padding-bottom: 15px;'>
+                <form name="search" method="post" class='searchform' action="category" style='padding-left: 15px; padding-bottom: 15px;'>
                     <input type="search" name="query1" placeholder="Поиск">
                     <button type="submit">Найти</button>
                     <label for="search"><?php echo $searchError; ?></label>
                 </form>
-                <br/>
+                <br />
 
                 <table class="table-bordered table-striped table">
                     <tr>
@@ -39,17 +40,15 @@ include THEME . 'layouts/header_admin.php'; ?>
                         <th></th>
                         <th></th>
                     </tr>
-                    <?php foreach ($categoriesList as $category): ?>
+                    <?php foreach ($categoriesList as $category) : ?>
                         <tr>
                             <td><?php echo $category['id']; ?></td>
                             <td><?php echo $category['name']; ?></td>
                             <td><?php echo $category['sort_order']; ?></td>
                             <td><?php echo Category::getStatusText($category['status']); ?></td>
-                            <td><?php echo Category::getTypeGood($category['type']);  // todo убрать ?></td>
-                            <td><a href="/admin/category/update/<?php echo $category['id']; ?>" title="Редактировать"><i
-                                            class="fa fa-pencil-square-o"></i></a></td>
-                            <td><a href="/admin/category/delete/<?php echo $category['id']; ?>" title="Удалить"><i
-                                            class="fa fa-times"></i></a></td>
+                            ?></td>
+                            <td><a href="/admin/category/update/<?php echo $category['id']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a href="/admin/category/delete/<?php echo $category['id']; ?>" title="Удалить"><i class="fa fa-times"></i></a></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -59,4 +58,3 @@ include THEME . 'layouts/header_admin.php'; ?>
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

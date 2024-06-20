@@ -9,7 +9,7 @@ use Blooengine\Models\User;
  */
 class SiteController
 {
-//    private $
+    //    private $
 
     /**
      * Action для главной страницы
@@ -43,7 +43,7 @@ class SiteController
 
         // Обработка формы
         if (isset($_POST['submit'])) {
-            // Если форма отправлена 
+            // Если форма отправлена
             // Получаем данные из формы
             $userEmail = $_POST['userEmail'];
             $userText = $_POST['userText'];
@@ -58,7 +58,7 @@ class SiteController
 
             if (!$errors) {
                 // Если ошибок нет
-                // Отправляем письмо администратору 
+                // Отправляем письмо администратору
                 $adminEmail = 'thesuperuserstyle@gmail.com';
                 $message = "Текст: {$userText}. От {$userEmail}";
                 $subject = 'Тема письма';
@@ -81,5 +81,4 @@ class SiteController
         require_once(THEME . 'site/about.php');
         return true;
     }
-
 }

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -17,7 +17,7 @@
 
                 <h4>Редактировать категорию "<?php echo $category['name']; ?>"</h4>
 
-                <br/>
+                <br />
 
                 <div class="col-lg-4">
                     <div class="login-form">
@@ -27,8 +27,7 @@
                             <input type="text" name="name" placeholder="" value="<?php echo $category['name']; ?>">
 
                             <p>Порядковый номер</p>
-                            <input type="text" name="sort_order" placeholder=""
-                                   value="<?php echo $category['sort_order']; ?>">
+                            <input type="text" name="sort_order" placeholder="" value="<?php echo $category['sort_order']; ?>">
 
                             <p>Статус</p>
                             <select name="status">
@@ -48,7 +47,7 @@
                                 <option value="1" <?php if ($category['type'] == 1) echo ' selected="selected"'; ?>>
                                     Кальяны
                                 </option>
-                                <option value="2"<?php if ($category['type'] == 2) echo ' selected="selected"'; ?>>
+                                <option value="2" <?php if ($category['type'] == 2) echo ' selected="selected"'; ?>>
                                     Уголь
                                 </option>
                                 <option value="3" <?php if ($category['type'] == 3) echo ' selected="selected"'; ?>>
@@ -71,4 +70,3 @@
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

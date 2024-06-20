@@ -1,4 +1,6 @@
-<?php use Blooengine\Models\Order;
+<?php
+
+use Blooengine\Models\Order;
 
 include THEME . 'layouts/header_admin.php'; ?>
 
@@ -6,7 +8,7 @@ include THEME . 'layouts/header_admin.php'; ?>
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -16,13 +18,12 @@ include THEME . 'layouts/header_admin.php'; ?>
                 </div>
 
                 <h4>Список заказов</h4>
-                <form name="search" method="post" class='searchform' action="../../../index.php"
-                      style='padding-left: 15px; padding-bottom: 15px;'>
+                <form name="search" method="post" class='searchform' action="../../../index.php" style='padding-left: 15px; padding-bottom: 15px;'>
                     <input type="search" name="query2" placeholder="Поиск">
                     <button type="submit">Найти</button>
                     <label for="search"><?php echo $searchError; ?></label>
                 </form>
-                <br/>
+                <br />
 
 
                 <table class="table-bordered table-striped table">
@@ -36,7 +37,7 @@ include THEME . 'layouts/header_admin.php'; ?>
                         <th></th>
                         <th></th>
                     </tr>
-                    <?php foreach ($ordersList as $order): ?>
+                    <?php foreach ($ordersList as $order) : ?>
                         <tr>
                             <td>
                                 <a href="/admin/order/view/<?php echo $order['id']; ?>">
@@ -47,12 +48,9 @@ include THEME . 'layouts/header_admin.php'; ?>
                             <td><?php echo $order['user_phone']; ?></td>
                             <td><?php echo $order['date']; ?></td>
                             <td><?php echo Order::getStatusText($order['status']); ?></td>
-                            <td><a href="/admin/order/view/<?php echo $order['id']; ?>" title="Смотреть"><i
-                                            class="fa fa-eye"></i></a></td>
-                            <td><a href="/admin/order/update/<?php echo $order['id']; ?>" title="Редактировать"><i
-                                            class="fa fa-pencil-square-o"></i></a></td>
-                            <td><a href="/admin/order/delete/<?php echo $order['id']; ?>" title="Удалить"><i
-                                            class="fa fa-times"></i></a></td>
+                            <td><a href="/admin/order/view/<?php echo $order['id']; ?>" title="Смотреть"><i class="fa fa-eye"></i></a></td>
+                            <td><a href="/admin/order/update/<?php echo $order['id']; ?>" title="Редактировать"><i class="fa fa-pencil-square-o"></i></a></td>
+                            <td><a href="/admin/order/delete/<?php echo $order['id']; ?>" title="Удалить"><i class="fa fa-times"></i></a></td>
                         </tr>
                     <?php endforeach; ?>
                 </table>
@@ -62,4 +60,3 @@ include THEME . 'layouts/header_admin.php'; ?>
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

@@ -40,5 +40,4 @@ class CreateadminController extends AdminBase
         require_once ROOT . "/views/default/admin/create.php";
         return true;
     }
-
 }

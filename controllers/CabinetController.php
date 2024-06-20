@@ -74,5 +74,4 @@ class CabinetController
         require_once(THEME . 'cabinet/edit.php');
         return true;
     }
-
 }

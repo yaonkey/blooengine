@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -13,15 +13,10 @@
                         <li class="active">Удалить товар</li>
                     </ol>
                 </div>
-
-
                 <h4>Удалить товар #<?php echo $id; ?></h4>
-
-
                 <p>Вы действительно хотите удалить этот товар?</p>
-
                 <form method="post">
-                    <input type="submit" name="submit" value="Удалить"/>
+                    <input type="submit" name="submit" value="Удалить" />
                 </form>
             </div>
         </div>
@@ -29,4 +24,3 @@
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

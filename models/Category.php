@@ -81,7 +81,7 @@ class Category implements Model
         // Соединение с БД
         $db = Db::getConnection();
         $query = trim($query);
-//    $query = mysql_real_escape_string($query);
+        //    $query = mysql_real_escape_string($query);
         $query = htmlspecialchars($query);
         // Запрос к БД
         $result = $db->query("SELECT id, name, sort_order, status, parent_id
@@ -135,9 +135,9 @@ class Category implements Model
 
         // Текст запроса к БД
         $sql = "UPDATE category
-            SET 
-                name = :name, 
-                sort_order = :sort_order, 
+            SET
+                name = :name,
+                sort_order = :sort_order,
                 status = :status,
                 parent_id = :parent_id
             WHERE id = :id";
@@ -248,6 +248,4 @@ class Category implements Model
         $result->execute();
         return $result->fetchall();
     }
-
-
 }

@@ -1,7 +1,7 @@
 <script>
-    (function ($) {
-        $(document).ready(function () {
-            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+    (function($) {
+        $(document).ready(function() {
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
                 event.preventDefault();
                 event.stopPropagation();
                 $(this).parent().siblings().removeClass('open');
@@ -79,39 +79,37 @@
 
             <!-- Аксессуары -->
             <li class='dropdown dropdown-submenu'>
-                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Аксессуары <b
-                            class="caret"></b></a>
+                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Аксессуары <b class="caret"></b></a>
                 <ul class='dropdown-menu'>
                     <?php
 
                     use Blooengine\Models\Category;
 
                     $categories = Category::getCategoriesList();
-                    foreach ($categories as $categoryItem):
-                        ?>
-                        <?php if ($categoryItem['type'] == 0): ?>
-                        <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
-                                <?php echo $categoryItem['name']; ?>
-                            </a></li>
-                    <?php endif ?>
+                    foreach ($categories as $categoryItem) :
+                    ?>
+                        <?php if ($categoryItem['type'] == 0) : ?>
+                            <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <?php echo $categoryItem['name']; ?>
+                                </a></li>
+                        <?php endif ?>
                     <?php endforeach; ?>
                 </ul>
             </li>
 
             <!-- Кальяны -->
             <li class='dropdown dropdown-submenu'>
-                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Кальяны <b
-                            class="caret"></b></a>
+                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Кальяны <b class="caret"></b></a>
                 <ul class='dropdown-menu'>
                     <?php
                     $categories = Category::getCategoriesList();
-                    foreach ($categories as $categoryItem):
-                        ?>
-                        <?php if ($categoryItem['type'] == 1): ?>
-                        <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
-                                <?php echo $categoryItem['name']; ?>
-                            </a></li>
-                    <?php endif ?>
+                    foreach ($categories as $categoryItem) :
+                    ?>
+                        <?php if ($categoryItem['type'] == 1) : ?>
+                            <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <?php echo $categoryItem['name']; ?>
+                                </a></li>
+                        <?php endif ?>
                     <?php endforeach; ?>
 
                 </ul>
@@ -119,18 +117,17 @@
 
             <!-- Уголь -->
             <li class='dropdown dropdown-submenu'>
-                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Уголь <b
-                            class="caret"></b></a>
+                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Уголь <b class="caret"></b></a>
                 <ul class='dropdown-menu'>
                     <?php
                     $categories = Category::getCategoriesList();
-                    foreach ($categories as $categoryItem):
-                        ?>
-                        <?php if ($categoryItem['type'] == 2): ?>
-                        <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
-                                <?php echo $categoryItem['name']; ?>
-                            </a></li>
-                    <?php endif ?>
+                    foreach ($categories as $categoryItem) :
+                    ?>
+                        <?php if ($categoryItem['type'] == 2) : ?>
+                            <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <?php echo $categoryItem['name']; ?>
+                                </a></li>
+                        <?php endif ?>
                     <?php endforeach; ?>
 
                 </ul>
@@ -138,18 +135,17 @@
 
             <!-- Чаши -->
             <li class='dropdown dropdown-submenu'>
-                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Чаши <b
-                            class="caret"></b></a>
+                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Чаши <b class="caret"></b></a>
                 <ul class='dropdown-menu'>
                     <?php
                     $categories = Category::getCategoriesList();
-                    foreach ($categories as $categoryItem):
-                        ?>
-                        <?php if ($categoryItem['type'] == 3): ?>
-                        <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
-                                <?php echo $categoryItem['name']; ?>
-                            </a></li>
-                    <?php endif ?>
+                    foreach ($categories as $categoryItem) :
+                    ?>
+                        <?php if ($categoryItem['type'] == 3) : ?>
+                            <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <?php echo $categoryItem['name']; ?>
+                                </a></li>
+                        <?php endif ?>
                     <?php endforeach; ?>
 
                 </ul>
@@ -157,18 +153,17 @@
 
             <!-- Кальянные смеси -->
             <li class='dropdown dropdown-submenu'>
-                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Кальянные смеси <b
-                            class="caret"></b></a>
+                <a id='dropdown-but-menu' href="#" class="dropdown-toggle" data-toggle="dropdown">Кальянные смеси <b class="caret"></b></a>
                 <ul class='dropdown-menu'>
                     <?php
                     $categories = Category::getCategoriesList();
-                    foreach ($categories as $categoryItem):
-                        ?>
-                        <?php if ($categoryItem['type'] == 4): ?>
-                        <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
-                                <?php echo $categoryItem['name']; ?>
-                            </a></li>
-                    <?php endif ?>
+                    foreach ($categories as $categoryItem) :
+                    ?>
+                        <?php if ($categoryItem['type'] == 4) : ?>
+                            <li><a id='category_items' href="/category/<?php echo $categoryItem['id']; ?>">
+                                    <?php echo $categoryItem['name']; ?>
+                                </a></li>
+                        <?php endif ?>
                     <?php endforeach; ?>
 
                 </ul>
@@ -178,4 +173,3 @@
         </ul>
     </li>
 </ul>
-         

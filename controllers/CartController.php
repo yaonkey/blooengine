@@ -85,7 +85,7 @@ class CartController
      */
     public function actionCheckout(): bool
     {
-        // Получием данные из корзины      
+        // Получием данные из корзины
         $productsInCart = Cart::getProducts();
 
         // Если товаров нет, отправляем пользователи искать товары на главную
@@ -151,7 +151,7 @@ class CartController
 
                 if ($result) {
                     // Если заказ успешно сохранен
-                    // Оповещаем администратора о новом заказе по почте                
+                    // Оповещаем администратора о новом заказе по почте
                     $adminEmail = 'php.start@mail.ru';
                     $message = '<a href="http://digital-mafia.net/admin/orders">Список заказов</a>';
                     $subject = 'Новый заказ!';
@@ -167,5 +167,4 @@ class CartController
         require_once(THEME . 'cart/checkout.php');
         return true;
     }
-
 }

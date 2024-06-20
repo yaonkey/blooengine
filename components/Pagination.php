@@ -193,5 +193,4 @@ class Pagination
         # Делим и возвращаем
         return ceil($this->total / $this->limit);
     }
-
 }

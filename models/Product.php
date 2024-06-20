@@ -63,7 +63,7 @@ class Product implements Model
     {
         $db = Db::getConnection();
         $query = trim($query);
-//    $query = mysql_real_escape_string($query);
+        //    $query = mysql_real_escape_string($query);
         $query = htmlspecialchars($query);
 
         if (!empty($query)) {
@@ -332,16 +332,16 @@ class Product implements Model
 
         // Текст запроса к БД
         $sql = "UPDATE product
-            SET 
-                name = :name, 
-                code = :code, 
-                price = :price, 
-                category_id = :category_id, 
-                brand = :brand, 
-                availability = :availability, 
-                description = :description, 
-                is_new = :is_new, 
-                is_recommended = :is_recommended, 
+            SET
+                name = :name,
+                code = :code,
+                price = :price,
+                category_id = :category_id,
+                brand = :brand,
+                availability = :availability,
+                description = :description,
+                is_new = :is_new,
+                is_recommended = :is_recommended,
                 status = :status
             WHERE id = :id";
 
@@ -469,5 +469,4 @@ class Product implements Model
         $result->execute();
         return $result->fetchall();
     }
-
 }

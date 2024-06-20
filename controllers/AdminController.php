@@ -20,5 +20,4 @@ class AdminController extends AdminBase
         require_once(THEME . 'admin/index.php');
         return true;
     }
-
 }

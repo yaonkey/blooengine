@@ -26,5 +26,4 @@ class ProductController
         require_once(THEME . 'product/view.php');
         return true;
     }
-
 }

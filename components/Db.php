@@ -12,8 +12,7 @@ use PDO;
 use PDOException;
 
 /**
- * Класс Db
- * Компонент для работы с базой данных
+ * Database class.
  */
 class Db
 {
@@ -67,5 +66,4 @@ class Db
         $result->execute();
         return $result->fetch();
     }
-
 }

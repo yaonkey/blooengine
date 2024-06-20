@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -13,27 +13,20 @@
                         <li class="active">Редактировать заказ</li>
                     </ol>
                 </div>
-
-
                 <h4>Редактировать заказ #<?php echo $id; ?></h4>
-
-                <br/>
-
+                <br />
                 <div class="col-lg-4">
                     <div class="login-form">
                         <form action="#" method="post">
 
                             <p>Имя клиента</p>
-                            <input type="text" name="userName" placeholder=""
-                                   value="<?php echo $order['user_name']; ?>">
+                            <input type="text" name="userName" placeholder="" value="<?php echo $order['user_name']; ?>">
 
                             <p>Телефон клиента</p>
-                            <input type="text" name="userPhone" placeholder=""
-                                   value="<?php echo $order['user_phone']; ?>">
+                            <input type="text" name="userPhone" placeholder="" value="<?php echo $order['user_phone']; ?>">
 
                             <p>Комментарий клиента</p>
-                            <input type="text" name="userComment" placeholder=""
-                                   value="<?php echo $order['user_comment']; ?>">
+                            <input type="text" name="userComment" placeholder="" value="<?php echo $order['user_comment']; ?>">
 
                             <p>Дата оформления заказа</p>
                             <input type="text" name="date" placeholder="" value="<?php echo $order['date']; ?>">
@@ -65,4 +58,3 @@
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

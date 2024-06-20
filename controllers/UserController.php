@@ -21,7 +21,7 @@ class UserController
         // Обработка формы
 
         if (isset($_POST['submit'])) {
-            // Если форма отправлена 
+            // Если форма отправлена
             // Получаем данные из формы
             $name = $_POST['name'];
             $email = $_POST['email'];
@@ -71,7 +71,7 @@ class UserController
 
         // Обработка формы
         if (isset($_POST['submit'])) {
-            // Если форма отправлена 
+            // Если форма отправлена
             // Получаем данные из формы
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -97,11 +97,10 @@ class UserController
                 // Если данные правильные, запоминаем пользователя (сессия)
                 User::auth($userId);
 
-                // Перенаправляем пользователя в закрытую часть - кабинет 
+                // Перенаправляем пользователя в закрытую часть - кабинет
                 //header("Location: /cabinet");
                 header("Location: /");
             }
-
         }
 
         // Подключаем вид
@@ -120,5 +119,4 @@ class UserController
         // Перенаправляем пользователя на главную страницу
         header("Location: /");
     }
-
 }

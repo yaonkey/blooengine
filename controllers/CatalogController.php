@@ -53,5 +53,4 @@ class CatalogController
         require_once(THEME . 'catalog/category.php');
         return true;
     }
-
 }

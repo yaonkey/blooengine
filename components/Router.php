@@ -87,5 +87,4 @@ class Router
             include_once ROOT . '/views/default/404.php';
         }
     }
-
 }

@@ -1,4 +1,6 @@
-<?php use Blooengine\Models\Order;
+<?php
+
+use Blooengine\Models\Order;
 
 include THEME . 'layouts/header_admin.php'; ?>
 
@@ -6,7 +8,7 @@ include THEME . 'layouts/header_admin.php'; ?>
     <div class="container">
         <div class="row">
             <div class="col-sm-10 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -15,12 +17,8 @@ include THEME . 'layouts/header_admin.php'; ?>
                         <li class="active">Просмотр заказа</li>
                     </ol>
                 </div>
-
-
                 <h4>Просмотр заказа #<?php echo $order['id']; ?></h4>
-                <br/>
-
-
+                <br />
                 <h5>Информация о заказе</h5>
                 <table class="table-admin-small table-bordered table-striped table">
                     <tr>
@@ -39,7 +37,7 @@ include THEME . 'layouts/header_admin.php'; ?>
                         <td>Комментарий клиента</td>
                         <td><?php echo $order['user_comment']; ?></td>
                     </tr>
-                    <?php if ($order['user_id'] != 0): ?>
+                    <?php if ($order['user_id'] != 0) : ?>
                         <tr>
                             <td>ID клиента</td>
                             <td><?php echo $order['user_id']; ?></td>
@@ -65,7 +63,7 @@ include THEME . 'layouts/header_admin.php'; ?>
                         <th>Цена</th>
                         <th>Количество</th>
                     </tr>
-                    <?php foreach ($products as $product): ?>
+                    <?php foreach ($products as $product) : ?>
                         <tr>
                             <td><?php echo $product['id']; ?></td>
                             <td><?php echo $product['code']; ?></td>
@@ -84,4 +82,3 @@ include THEME . 'layouts/header_admin.php'; ?>
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

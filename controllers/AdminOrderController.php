@@ -26,7 +26,7 @@ class AdminOrderController extends AdminBase
             $ordersList = Order::getOrdersList();
         }
         // Получаем список заказов
-//        $ordersList = Order::getOrdersList();
+        //        $ordersList = Order::getOrdersList();
 
         // Подключаем вид
         require_once(THEME . 'admin_order/index.php');
@@ -46,7 +46,7 @@ class AdminOrderController extends AdminBase
 
         // Обработка формы
         if (isset($_POST['submit'])) {
-            // Если форма отправлена   
+            // Если форма отправлена
             // Получаем данные из формы
             $userName = $_POST['userName'];
             $userPhone = $_POST['userPhone'];
@@ -113,5 +113,4 @@ class AdminOrderController extends AdminBase
         require_once(THEME . 'admin_order/delete.php');
         return true;
     }
-
 }

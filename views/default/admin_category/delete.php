@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-4 col-sm-offset-4">
-                <br/>
+                <br />
 
                 <div class="breadcrumbs">
                     <ol class="breadcrumb">
@@ -21,7 +21,7 @@
                 <p>Вы действительно хотите удалить эту категорию?</p>
 
                 <form method="post">
-                    <input type="submit" name="submit" value="Удалить"/>
+                    <input type="submit" name="submit" value="Удалить" />
                 </form>
             </div>
         </div>
@@ -29,4 +29,3 @@
 </section>
 
 <?php include THEME . 'layouts/footer_admin.php'; ?>
-

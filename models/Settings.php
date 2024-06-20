@@ -100,11 +100,11 @@ class Settings implements Model
     private function firstInit(): void
     {
         self::addOption('site_name', $this->siteName, 'Option with site name') &&
-        self::addOption('site_email', $this->siteEmail, 'Option with site email') &&
-        self::addOption('is_available', '1', 'Is site available for all users') &&
-        self::addOption('region', 'eu', 'Site region') &&
-        self::addOption('theme', 'default', 'Option with site theme') &&
-        self::addOption('lang', 'ru', 'Site language');
+            self::addOption('site_email', $this->siteEmail, 'Option with site email') &&
+            self::addOption('is_available', '1', 'Is site available for all users') &&
+            self::addOption('region', 'eu', 'Site region') &&
+            self::addOption('theme', 'default', 'Option with site theme') &&
+            self::addOption('lang', 'ru', 'Site language');
         Functions::inputLock();
     }
 

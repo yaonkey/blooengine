@@ -13,7 +13,9 @@ use Blooengine\Components\Functions;
 
 session_start();
 
-if (!Functions::isLock() && !\Blooengine\Components\Db::checkConnection()) { print_r("go to route <a href='/createadmin'>/createadmin</a> for create admin<br>");}
+if (!Functions::isLock() && !\Blooengine\Components\Db::checkConnection()) {
+    print_r("go to route <a href='/createadmin'>/createadmin</a> for create admin<br>");
+}
 
 
 // Вызов Router
